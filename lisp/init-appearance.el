@@ -44,11 +44,7 @@
   (setq doom-modeline-support-imenu t
 	doom-modeline-height 25
 	doom-modeline-hud nil
-	doom-modeline-indent-info t
-	doom-modeline-total-line-number t
-	doom-modeline-modal-icon t
-	doom-modeline-modal-modern-icon t
-	doom-modeline-time t)
+	doom-modeline-total-line-number t)
   (doom-modeline-mode 1)
   )
 

@@ -3,16 +3,16 @@
 
 ;;; Code:
 (use-package projectile
- :ensure t
- :bind (("C-c p" . projectile-command-map))
- :config
- (setq projectile-mode-line "Projectile")
- (setq projectile-track-known-projects-automatically nil))
+  :ensure t
+  :pin melpa-stable
+  :bind (("C-c p" . projectile-command-map))
+  :init
+  (projectile-mode +1)
+  (setq projectile-project-search-path '("~/Documents/"))
+  :config
+  (setq projectile-mode-line "Projectile")
+  (setq projectile-track-known-projects-automatically nil))
 
-(use-package counsel-projectile
- :ensure t
- :after (projectile)
- :init (counsel-projectile-mode))
 
 (use-package transient
   :ensure t)
@@ -24,7 +24,9 @@
 (use-package diff-hl
   :ensure t
   :init
-  (global-diff-hl-mode))
+  (global-diff-hl-mode)
+  :hook
+  (magit-post-refresh-hook . diff-hl-magit-post-refresh))
 
 (provide 'framework-project)
 ;;; framework-project.el ends here

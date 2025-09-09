@@ -13,7 +13,8 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 
 (my/add-dirs-to-load-path '("lisp"
 			    "lisp/framework"
-			    "lisp/language"))
+			    "lisp/language"
+			    "lisp/modules"))
   
 (defconst *spell-check-support-enabled* nil)
 (defconst *is-a-mac* (eq system-type 'darwin))
@@ -28,6 +29,7 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 
 ;; Load configuration
 (require 'framework-elpa)
+(require 'framework-keybinding)
 (require 'framework-completion)
 (require 'framework-language)
 (require 'framework-project)
@@ -35,6 +37,7 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 (require 'init-basic)
 (require 'init-utils)
 (require 'init-appearance)
+(require 'init-modules)
 (require 'language-cc)
 (require 'language-beancount)
 

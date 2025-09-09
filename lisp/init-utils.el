@@ -1,17 +1,7 @@
-;;; init--utils.el --- setup some useful utils -*- lexical-binding: t -*-
+;;; init-utils.el --- setup some useful utils -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;;; Code:
-(use-package which-key
-  :ensure t
-  :init
-  (which-key-mode)
-  :config
-  (setq which-key-popup-type 'minibuffer
-	which-key-separator " → "
-	which-key-unicode-correction 3
-	which-key-idle-delay 0.5))
-
 (use-package ace-window
  :ensure t
  :bind (("C-x o" . 'ace-window)))
@@ -41,6 +31,18 @@
  :init
  (setq exec-path-from-shell-arguments nil)
  (exec-path-from-shell-initialize))
+
+(use-package vterm
+  :ensure t
+  :init
+  (require 'module-vterm-toggle)
+  :config
+  (setq vterm-kill-buffer-on-exit t
+	vterm-max-scrollback 5000)
+  :general
+  (:prefix "C-x t"
+	   "t" 'vterm-toggle
+	   "T" 'vterm-toggle-insert-cd))
 
 
 (provide 'init-utils)
