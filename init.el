@@ -43,4 +43,3 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 
 (provide 'init)
 ;;; init.el ends here
-(put 'downcase-region 'disabled nil)

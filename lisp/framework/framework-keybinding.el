@@ -1,0 +1,19 @@
+;;; framework-keybinding.el --- setup keybinding system -*- lexical-binding: t -*-
+;;; Commentary:
+
+;;; Code:
+(use-package which-key
+  :ensure t
+  :init
+  (which-key-mode)
+  :config
+  (setq which-key-popup-type 'minibuffer
+	which-key-separator " → "
+	which-key-unicode-correction 3
+	which-key-idle-delay 0.5))
+(use-package general
+  :ensure (:wait t)
+  :demand t)
+
+(provide 'framework-keybinding)
+;;; framework-keybinding.el ends here
