@@ -21,6 +21,7 @@
       make-backup-files nil
       display-line-numbers-type 'relative
       find-file-visit-truename t
+      display-line-numbers-width 4
       )
 (add-hook 'prog-mode-hook #'electric-pair-mode)
 (add-hook 'prog-mode-hook #'show-paren-mode)
