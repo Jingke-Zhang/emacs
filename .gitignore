@@ -4,3 +4,5 @@
 /history
 /transient/
 /auto-save-list/
+.*~.*
+recentf

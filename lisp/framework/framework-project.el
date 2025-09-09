@@ -4,7 +4,6 @@
 ;;; Code:
 (use-package projectile
   :ensure t
-  :pin melpa-stable
   :bind (("C-c p" . projectile-command-map))
   :init
   (projectile-mode +1)
