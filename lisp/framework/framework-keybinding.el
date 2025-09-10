@@ -13,7 +13,14 @@
 	which-key-idle-delay 0.5))
 (use-package general
   :ensure (:wait t)
-  :demand t)
+  :demand t
+  :config
+  (general-unbind
+    "C-x f")
+  (general-create-definer my/find-file-def
+    :prefix "C-x f")
+  (general-create-definer my/toggle-def
+    :prefix "C-x t"))
 
 (provide 'framework-keybinding)
 ;;; framework-keybinding.el ends here

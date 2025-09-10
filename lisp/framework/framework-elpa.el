@@ -41,12 +41,12 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
-
-
 ;; Install use-package support
 (elpaca elpaca-use-package
   ;; Enable use-package :ensure support for Elpaca.
 	(elpaca-use-package-mode))
+
+(use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
 
 (provide 'framework-elpa)
 ;;; framework-elpa.el ends here
