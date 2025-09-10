@@ -11,11 +11,15 @@
 
 (defun my/find-emacs-config-file ()
   (interactive)
-  (dired user-emacs-directory))
+  (projectile-find-file-in-directory user-emacs-directory))
 
 (defun my/open-zsh-config ()
   (interactive)
   (find-file "~/.zshrc"))
+
+(my/find-file-def
+ "p" 'my/find-emacs-config-file
+ "z" 'my/open-zsh-config)
 
 (provide 'init-my-functions)
 ;;; init-my-functions.el ends here

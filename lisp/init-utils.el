@@ -40,9 +40,12 @@
   (setq vterm-kill-buffer-on-exit t
 	vterm-max-scrollback 5000)
   :general
-  (:prefix "C-x t"
-	   "t" 'vterm-toggle
-	   "T" 'vterm-toggle-insert-cd))
+  ;; (:prefix "C-x t"
+  ;; 	   "t" 'vterm-toggle
+  ;; 	   "T" 'vterm-toggle-insert-cd))
+  (my/toggle-def
+   "t" 'vterm-toggle
+   "T" 'vterm-toggle-insert-cd))
 
 
 (provide 'init-utils)
