@@ -25,7 +25,6 @@
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; for treemacs users
   (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  (doom-modeline-github t)
   
   :config
   (load-theme 'doom-tomorrow-day t)
@@ -46,9 +45,9 @@
   (setq doom-modeline-support-imenu t
 	doom-modeline-height 25
 	doom-modeline-hud nil
-	doom-modeline-total-line-number t)
-  (doom-modeline-mode 1)
-  )
+	doom-modeline-total-line-number t
+	doom-modeline-github t)
+  (doom-modeline-mode 1))
 
 ;; Rainbow delimiters
 (use-package rainbow-delimiters
