@@ -184,9 +184,9 @@
   :ensure t
   :after corfu
   :config
-  (corfu-candidate-overlay-mode +1)
-  :general
-  ("C-<tab>" 'corfu-candidate-overlay-complete-at-point))
+  (corfu-candidate-overlay-mode 1)
+  :bind
+  ("C-<tab>" .'corfu-candidate-overlay-complete-at-point))
 
 ;; Use the `orderless' completion style.
 (use-package orderless
