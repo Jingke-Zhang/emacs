@@ -32,6 +32,7 @@
   :ensure t
   :init
   (setq lsp-keymap-prefix "C-c l"
+	lsp-format-buffer-on-save t
 	lsp-file-watch-threshold 500)
   :hook  (lsp-mode . lsp-enable-which-key-integration) ; which-key integration
   :commands (lsp lsp-deferred)
@@ -39,7 +40,6 @@
   (setq lsp-completion-provider :none
 	lsp-headerline-breadcrumb-enable t
 	lsp-enable-on-type-formatting nil
-	lsp-format-buffer-on-save t
 	lsp-headerline-breadcrumb-icons-enable t))
 	
 
