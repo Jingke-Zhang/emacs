@@ -1,4 +1,4 @@
-;;; init-appearance.el --- configure appreance -*- lexical-binding: t -*-
+;;; framework-appearance.el --- configure appreance -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;;; Code:
@@ -53,6 +53,26 @@
  :ensure t
  :hook (prog-mode . rainbow-delimiters-mode))
 
+;; Dashboard
+(use-package dashboard
+  :ensure t
+  :init
+  (setq dashboard-items '((recents   . 5)
+                          (bookmarks . 5)
+                          (projects  . 5))
+	dashboard-item-shortcuts '((recents   . "r")
+                                   (bookmarks . "m")
+                                   (projects  . "p")))
+  :config
+  (add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)
+  (add-hook 'elpaca-after-init-hook #'dashboard-initialize)
+  (dashboard-setup-startup-hook)
+  (setq dashboard-navigation-cycle t
+	dashboard-display-icons-p t
+	dashboard-icon-type 'nerd-icons
+	dashboard-set-heading-icons t
+	dashboard-set-file-icons t)
+  )
 
-(provide 'init-appearance)
-;;; init-appearance.el ends here
+(provide 'framework-appearance)
+;;; framework-appearance.el ends here
