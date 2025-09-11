@@ -153,8 +153,8 @@
   (corfu-max-width corfu-min-width)       ; Always have the same width
   (corfu-count 14)
   (corfu-scroll-margin 4)
-  :bind
-  ("M-/" . 'completion-at-point))
+  :general
+  ("M-/" 'completion-at-point))
   
 ;; Emacs completion configuration
 (use-package emacs
@@ -166,13 +166,14 @@
 
 (use-package cape
   :ensure t
-  :bind ("M-p" . cape-prefix-map)
-
   :init
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  (add-hook 'completion-at-point-functions #'cape-history))
+  (add-hook 'completion-at-point-functions #'cape-history)
+  ;; :general
+  ;; ("M-p" cape-prefix-map)
+)
 
 (use-package nerd-icons-corfu
   :ensure t
@@ -183,8 +184,9 @@
   :ensure t
   :after corfu
   :config
-  (corfu-candidate-overlay-mode +1))
-  ;; (global-set-key (kbd "C-<iso-lefttab>") 'corfu-candidate-overlay-complete-at-point))
+  (corfu-candidate-overlay-mode +1)
+  :general
+  ("C-<tab>" 'corfu-candidate-overlay-complete-at-point))
 
 ;; Use the `orderless' completion style.
 (use-package orderless
