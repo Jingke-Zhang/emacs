@@ -26,11 +26,11 @@
   ("M-g g" . avy-goto-line)))
 
 (use-package exec-path-from-shell
- :if (memq window-system '(mac ns))
- :ensure t
- :init
- (setq exec-path-from-shell-arguments nil)
- (exec-path-from-shell-initialize))
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :init
+  (setq exec-path-from-shell-arguments nil)
+  (exec-path-from-shell-initialize))
 
 (use-package vterm
   :ensure t
