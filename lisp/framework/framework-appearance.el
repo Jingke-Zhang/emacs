@@ -57,7 +57,8 @@
 (use-package dashboard
   :ensure t
   :init
-  (setq dashboard-items '((recents   . 5)
+  (setq dashboard-startup-banner (expand-file-name "attachment/emacs-e-logo.png" user-emacs-directory)
+	dashboard-items '((recents   . 5)
                           (bookmarks . 5)
                           (projects  . 5))
 	dashboard-item-shortcuts '((recents   . "r")

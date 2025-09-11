@@ -7,3 +7,6 @@
 recentf
 /.cache/
 /projects
+*#*
+*flycheck*
+*~*
