@@ -25,6 +25,8 @@
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; for treemacs users
   (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-modeline-github t)
+  
   :config
   (load-theme 'doom-tomorrow-day t)
 
