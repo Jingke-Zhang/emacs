@@ -28,9 +28,6 @@
   :hook
   (magit-post-refresh-hook . diff-hl-magit-post-refresh))
 
-(use-package hydra
-  :ensure t)
-
 (use-package treemacs
   :ensure t
   :defer t

@@ -38,7 +38,6 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 (require 'init-basic)
 (require 'init-utils)
 (require 'init-modules)
-(require 'init-keybinding)
 (require 'init-github)
 (require 'language-cc)
 (require 'language-beancount)
