@@ -9,7 +9,14 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
   :hook
-  (beancount-mode . (lambda () (setq-local electric-indent-chars nil))))
+  (beancount-mode . (lambda () (setq-local electric-indent-chars nil)))
+  :init
+  (with-eval-after-load 'nerd-icons
+    (add-to-list 'nerd-icons-extension-icon-alist
+                 '("beancount" nerd-icons-faicon "nf-fa-money" :face nerd-icons-lblue))
+    (add-to-list 'nerd-icons-mode-icon-alist
+                 '(beancount-mode nerd-icons-faicon "nf-fa-money" :face nerd-icons-lblue)))
+)
 
 (use-package lsp-mode
   :hook (beancount-mode . lsp-deferred)

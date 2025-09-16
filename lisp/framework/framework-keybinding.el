@@ -2,6 +2,15 @@
 ;;; Commentary:
 
 ;;; Code:
+(use-package hydra
+  :ensure (:wait t))
+
+(define-key Buffer-menu-mode-map "." 'hydra-buffer-menu/body)
+
+(use-package use-package-hydra
+  :ensure (:wait t)
+  :after hydra)
+
 (use-package which-key
   :ensure t
   :init
@@ -11,6 +20,7 @@
 	which-key-separator " → "
 	which-key-unicode-correction 3
 	which-key-idle-delay 0.5))
+
 (use-package general
   :ensure (:wait t)
   :demand t
