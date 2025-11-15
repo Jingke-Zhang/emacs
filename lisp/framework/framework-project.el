@@ -4,7 +4,8 @@
 ;;; Code:
 (use-package projectile
   :ensure t
-  :bind (("C-c p" . projectile-command-map))
+  :defer t
+  :bind (("C-x p" . projectile-command-map))
   :init
   (projectile-mode +1)
   (setq projectile-project-search-path '("~/Documents/"))
@@ -17,12 +18,13 @@
   :ensure t)
 
 (use-package magit
-  :demand t
   :ensure t
+  :defer t
   :bind (("C-x g" . magit-status)))
 
 (use-package diff-hl
   :ensure t
+  :defer t
   :init
   (global-diff-hl-mode)
   :hook
@@ -113,13 +115,16 @@
   
 (use-package treemacs-projectile
   :after (treemacs projectile)
+  :defer t
   :ensure t)
 
 (use-package treemacs-icons-dired
+  :defer t
   :hook (dired-mode . treemacs-icons-dired-enable-once)
   :ensure t)
 
 (use-package treemacs-magit
+  :defer t
   :after (treemacs magit)
   :ensure t)
 

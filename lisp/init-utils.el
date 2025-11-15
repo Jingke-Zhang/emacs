@@ -4,26 +4,29 @@
 ;;; Code:
 (use-package ace-window
   :ensure t
+  :defer t
   :bind (("C-x o" . 'ace-window)))
 
 (use-package mwim
   :ensure t
+  :defer t
   :bind
   ("C-a" . mwim-beginning-of-code-or-line)
   ("C-e" . mwim-end-of-code-or-line))
 
 (use-package undo-tree
   :ensure t
+  :defer t
   :init (global-undo-tree-mode)
   :custom
   (undo-tree-auto-save-history nil))
 
 (use-package avy
   :ensure t
+  :defer t
   :bind
   (("C-;" . avy-goto-char)
-   ("C-'" . avy-goto-char-timer)
-   ("M-g g" . avy-goto-line)))
+   ("C-'" . avy-goto-char-timer)))
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
@@ -34,6 +37,7 @@
 
 (use-package vterm
   :ensure t
+  :defer t
   :init
   (require 'module-vterm-toggle)
   :config
@@ -49,6 +53,7 @@
 
 (use-package pdf-tools
   :ensure t
+  :defer t
   :defer t)
 
 (provide 'init-utils)
