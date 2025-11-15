@@ -5,6 +5,7 @@
 ;; Enable Vertico.
 (use-package vertico
   :ensure t
+  :defer t
   :custom
   (vertico-scroll-margin 2) ;; Different scroll margin
   (vertico-count 20) ;; Show more candidates
@@ -32,6 +33,7 @@
 ;; Consult for better searching
 (use-package consult
   :ensure t
+  :defer t
   :bind (;; C-c bindings in `mode-specific-map'
          ("C-c M-x" . consult-mode-command)
          ("C-c h" . consult-history)
@@ -136,6 +138,7 @@
 ;; Completion
 (use-package corfu
   :ensure t
+  :defer t
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
@@ -166,6 +169,7 @@
 
 (use-package cape
   :ensure t
+  :defer t
   :init
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
@@ -177,11 +181,13 @@
 
 (use-package nerd-icons-corfu
   :ensure t
+  :defer t
   :after corfu
   :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 (use-package corfu-candidate-overlay
   :ensure t
+  :defer t
   :after corfu
   :config
   (corfu-candidate-overlay-mode 1)
@@ -191,6 +197,7 @@
 ;; Use the `orderless' completion style.
 (use-package orderless
   :ensure t
+  :defer t
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
@@ -199,6 +206,7 @@
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
   :ensure t
+  :defer t
   :bind (:map minibuffer-local-map
          ("M-A" . marginalia-cycle))
   :init

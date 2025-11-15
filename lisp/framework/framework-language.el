@@ -5,6 +5,7 @@
 ;; Snippet
 (use-package yasnippet
   :ensure t
+  :defer t
   :hook
   (prog-mode . yas-minor-mode)
   :config
@@ -16,20 +17,23 @@
   (:map yas-minor-mode-map ("S-<tab>" . yas-expand)))
   
 (use-package yasnippet-snippets
- :ensure t
- :after yasnippet)
+  :ensure t
+  :defer t
+  :after yasnippet)
 
 ;; Syntax Checking
 (use-package flycheck
- :ensure t
- :config
- (setq truncate-lines nil)
- :hook
- (prog-mode . flycheck-mode))
+  :ensure t
+  :defer t
+  :config
+  (setq truncate-lines nil)
+  :hook
+  (prog-mode . flycheck-mode))
 
 ;; LSP
 (use-package lsp-mode
   :ensure t
+  :defer t
   :init
   (setq lsp-keymap-prefix "C-c l"
 	lsp-format-buffer-on-save t
@@ -42,9 +46,9 @@
 	lsp-enable-on-type-formatting nil
 	lsp-headerline-breadcrumb-icons-enable t))
 	
-
 (use-package lsp-ui
   :ensure t
+  :defer t
   :config
   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
@@ -52,6 +56,7 @@
 
 (use-package lsp-treemacs
   :ensure t
+  :defer t
   :config
   (lsp-treemacs-sync-mode 1)
   :custom
@@ -61,6 +66,7 @@
 (use-package lsp-treemacs-nerd-icons
   :ensure
   (:host github :repo "Velnbur/lsp-treemacs-nerd-icons" :files ("*.el"))
+  :defer t
   :custom
   (lsp-treemacs-theme "nerd-icons-ext")
   :init

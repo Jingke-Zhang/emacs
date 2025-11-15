@@ -34,7 +34,7 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 (require 'framework-language)
 (require 'framework-project)
 (require 'framework-appearance)
-(require 'init-my-functions)
+(require 'init-functions)
 (require 'init-basic)
 (require 'init-utils)
 (require 'init-modules)
@@ -42,6 +42,7 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 (require 'init-edit)
 (require 'language-cc)
 (require 'language-beancount)
+(require 'language-py)
 
 (provide 'init)
 ;;; init.el ends here
