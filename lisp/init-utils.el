@@ -25,14 +25,12 @@
   :ensure t
   :defer t
   :bind
-  (("C-;" . avy-goto-char)
-   ("C-'" . avy-goto-char-timer)))
+  (("C-;" . avy-goto-char-timer)))
 
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
   :ensure t
   :init
-  (setq exec-path-from-shell-arguments nil)
   (exec-path-from-shell-initialize))
 
 (use-package vterm
@@ -44,9 +42,6 @@
   (setq vterm-kill-buffer-on-exit t
 	vterm-max-scrollback 5000)
   :general
-  ;; (:prefix "C-x t"
-  ;; 	   "t" 'vterm-toggle
-  ;; 	   "T" 'vterm-toggle-insert-cd))
   (my/toggle-def
     "t" 'vterm-toggle
     "T" 'vterm-toggle-insert-cd))
