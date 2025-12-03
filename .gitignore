@@ -11,3 +11,5 @@ recentf
 *flycheck*
 *~*
 /forge-database.sqlite
+/eshell/
+/projectile-bookmarks.eld

@@ -7,11 +7,38 @@
   :defer t
   :bind (("C-x p" . projectile-command-map))
   :init
-  (projectile-mode +1)
-  (setq projectile-project-search-path '("~/Documents/"))
+  (projectile-mode 1)
+  (setq projectile-project-search-path '("~/Documents/" "~/.config/")
+	projectile-ignored-projects '("~/"))
   :config
-  (setq projectile-mode-line "Projectile")
-  (setq projectile-track-known-projects-automatically nil))
+  (setq projectile-enable-caching t
+	projectile-require-project-root t
+	projectile-track-known-projects-automatically nil))
+
+(use-package perspective
+  :ensure t
+  :bind
+  ("C-x b" . consult-project-buffer)
+  ("C-x C-b" . persp-ibuffer)
+  ("C-x B" . consult-buffer)
+  ("C-x M-b" . ibuffer)
+  :custom
+  (persp-mode-prefix-key (kbd "C-c p"))
+  :init
+  (persp-mode))
+
+(use-package persp-projectile
+  :ensure t
+  :after (perspective projectile)
+  :bind
+  ("C-x p p" . projectile-persp-switch-project))
+
+(use-package ibuffer
+  :ensure nil
+  :hook (ibuffer-mode . ibuffer-auto-mode-switch-setup)
+  :config
+  (setq ibuffer-expert t)
+  (setq ibuffer-show-empty-filter-groups nil))
 
 
 (use-package transient

@@ -33,10 +33,10 @@
 
 (savehist-mode 1)
 
-;; (setq scroll-margin 4
-;;       scroll-step 1
-;;       scroll-conservatively 10000
-;;       scroll-preserve-screen-position 0)
+(setq scroll-margin 4
+      scroll-step 1
+      scroll-conservatively 10000
+      scroll-preserve-screen-position 0)
 
 (provide 'init-basic)
 ;;; init-basic.el ends here
