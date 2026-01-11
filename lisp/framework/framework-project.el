@@ -5,7 +5,6 @@
 (use-package projectile
   :ensure t
   :defer t
-  :bind (("C-x p" . projectile-command-map))
   :init
   (projectile-mode 1)
   (setq projectile-project-search-path '("~/Documents/" "~/.config/")
@@ -13,22 +12,30 @@
   :config
   (setq projectile-enable-caching t
 	projectile-require-project-root t
-	projectile-track-known-projects-automatically nil))
+	projectile-track-known-projects-automatically nil)
+  (my/C-x
+    "p" 'projectile-command-map))
 
 (use-package perspective
   :ensure t
-  :bind
-  ("C-x b" . consult-project-buffer)
-  ("C-x C-b" . persp-ibuffer)
-  ("C-x B" . consult-buffer)
-  ("C-x M-b" . ibuffer)
-  :custom
-  (persp-mode-prefix-key (kbd "C-c p"))
+  :defer t
   :init
-  (persp-mode))
+  (setq persp-suppress-no-prefix-key-warning t)
+  (persp-mode)
+  :config
+  (my/C-x
+   "b" 'consult-project-buffer
+   "C-b" 'persp-ibuffer
+   "B" 'consult-buffer
+   "M-b" 'ibuffer)
+  (my/persp-def
+   "p" 'persp-switch
+   "l" 'persp-switch-last
+   "k" 'persp-kill))
 
 (use-package persp-projectile
   :ensure t
+  :defer t
   :after (perspective projectile)
   :bind
   ("C-x p p" . projectile-persp-switch-project))

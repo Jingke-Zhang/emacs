@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Accure Gas Bill
+# key: gas
+# --
+${1} * "Tokyo Gas" "Accrue ${2} gas bill"
+  Liabilities:Payable:Gas                                  - ${3} JPY
+  Expenses:Core:Utilities:Gas$0

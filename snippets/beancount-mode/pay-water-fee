@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Pay Water Fee
+# key: water
+# --
+${1} * "" "Pay ${2} water fee"
+  Assets:JP:PayPay                                         - ${3} JPY
+  Liabilities:Payable:Water$0

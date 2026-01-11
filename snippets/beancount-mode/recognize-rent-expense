@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Recognize rent expense
+# key: rent
+# --
+${1} * "" "Recognize ${2} rent expense"
+  Assets:Prepaid:Rent                                     - 69330 JPY
+  Expenses:Core:Housing:Rent$0

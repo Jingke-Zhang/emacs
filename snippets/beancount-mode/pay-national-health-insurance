@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Pay National Health Insurance
+# key: heal
+# --
+${1} * "National Health Insurance for ${2}" ""
+  Expenses:Core:SocialInsurance:Health                     + ${3:1860} JPY
+  Liabilities:JP:PPB:CreditCard:2169$0
