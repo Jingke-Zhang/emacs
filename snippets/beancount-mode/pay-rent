@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Pay rent
+# key: rent
+# --
+${1} * "" "Pay house rent for ${2}"
+  Assets:JP:JPB:CashCard:7721                             - 69330 JPY
+  Assets:Prepaid:Rent$0

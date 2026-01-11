@@ -16,5 +16,13 @@
   :config
   (require 'smartparens-config))
 
+(use-package hideshow
+  :config
+  (my/fold-def
+   "f" 'hs-toggle-hiding
+   "a" 'hs-hide-all
+   "s" 'hs-show-all
+   "l" 'hs-hide-level))
+
 (provide 'init-edit)
 ;;; init-edit.el ends here

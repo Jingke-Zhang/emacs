@@ -17,26 +17,24 @@
 (when (display-graphic-p) (toggle-scroll-bar -1))
 
 ;; Themes
-(use-package doom-themes
+(use-package catppuccin-theme
   :ensure t
-  :custom
-  ;; Global settings (defaults)
-  (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
-  (doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  ;; for treemacs users
-  (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  
   :config
-  (load-theme 'doom-tomorrow-day t)
+  (setq catppuccin-flavor 'frappe)
+  (load-theme 'catppuccin t)
 
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (nerd-icons must be installed!)
-  (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (defun my/transparent-emacs ()
+    (unless (display-graphic-p)
+      (set-face-background 'default "unspecified-bg")
+      (set-face-background 'line-number "unspecified-bg")
+      (set-face-background 'fringe "unspecified-bg")))
+
+  (add-hook 'window-setup-hook #'my/transparent-emacs)
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+              (with-selected-frame frame
+                (my/transparent-emacs)))))
+
 
 ;; Modeline
 (use-package doom-modeline
@@ -75,6 +73,17 @@
 	dashboard-set-heading-icons t
 	dashboard-set-file-icons t)
   )
+
+;; ;; Better display in terminal mode
+;; (defun my/apply-transparent-background ()
+;;   (unless (display-graphic-p)
+;;     (set-face-background 'default "unspecified-bg" (selected-frame))))
+
+;; (add-hook 'window-setup-hook 'my/apply-transparent-background)
+;; (add-hook 'after-make-frame-functions
+;;           (lambda (frame)
+;;             (with-selected-frame frame
+;;               (my/apply-transparent-background))))
 
 (provide 'framework-appearance)
 ;;; framework-appearance.el ends here

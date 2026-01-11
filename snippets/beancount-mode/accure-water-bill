@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# key: water
+# name: Accure Water Bill 
+# --
+${1} * "Tokyo Bureau of Waterworks" "Accrue ${2} water bill"
+  Liabilities:Payable:Water                                  - ${3} JPY
+  Expenses:Core:Utilities:Water$0
