@@ -12,8 +12,7 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 	(add-to-list 'load-path full-path)))))
 
 (my/add-dirs-to-load-path '("lisp"
-			    "lisp/framework"
-			    "lisp/language"
+			    "lisp/core"
 			    "lisp/modules"))
   
 (defconst *spell-check-support-enabled* nil)
@@ -28,21 +27,19 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
 ;; Load configuration
-(require 'framework-elpa)
-(require 'framework-keybinding)
-(require 'framework-completion)
-(require 'framework-language)
-(require 'framework-project)
-(require 'framework-appearance)
-(require 'init-functions)
-(require 'init-basic)
-(require 'init-utils)
-(require 'init-modules)
-(require 'init-github)
-(require 'init-edit)
-(require 'language-cc)
-(require 'language-beancount)
-(require 'language-py)
+(require 'core-elpa)
+(require 'core-base)
+(require 'core-ui)
+(require 'core-edit)
+(require 'core-comp)
+(require 'core-funcs)
+
+(require 'mod-dev)
+(require 'mod-tools)
+
+(require 'lang-cc)
+(require 'lang-py)
+(require 'lang-beancount)
 
 (provide 'init)
 ;;; init.el ends here

@@ -1,4 +1,4 @@
-;;; framework-appearance.el --- configure appreance -*- lexical-binding: t -*-
+;;; core-ui.el --- configure ui -*- lexical-binding: t -*-
 ;;; Commentary:
 
 ;;; Code:
@@ -8,6 +8,12 @@
 ;; Provide icons
 (use-package nerd-icons
   :ensure t)
+
+;; Use nerd-icons for dired
+(use-package nerd-icons-dired
+  :ensure t
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
 
 ;; Some display settings
 (unless (equal "Battery status not available"
@@ -74,16 +80,6 @@
 	dashboard-set-file-icons t)
   )
 
-;; ;; Better display in terminal mode
-;; (defun my/apply-transparent-background ()
-;;   (unless (display-graphic-p)
-;;     (set-face-background 'default "unspecified-bg" (selected-frame))))
 
-;; (add-hook 'window-setup-hook 'my/apply-transparent-background)
-;; (add-hook 'after-make-frame-functions
-;;           (lambda (frame)
-;;             (with-selected-frame frame
-;;               (my/apply-transparent-background))))
-
-(provide 'framework-appearance)
-;;; framework-appearance.el ends here
+(provide 'core-ui)
+;;; core-ui.el ends here

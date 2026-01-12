@@ -15,6 +15,9 @@
 (setq locale-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+
 ;; Others
 (setq confirm-kill-emacs #'yes-or-no-p
       inhibit-startup-message t
