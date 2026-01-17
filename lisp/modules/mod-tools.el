@@ -2,12 +2,10 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package dash)
-
 (use-package dired-hacks-utils
   :ensure t
-  :after dired
-  :defer t)
+  :defer t
+  :after (dired dash))
 
 (use-package dired-subtree
   :after dired-hacks-utils
@@ -20,16 +18,17 @@
             (lambda ()
               (when (fboundp 'nerd-icons-dired-mode)
                 (nerd-icons-dired-mode -1)
-                (nerd-icons-dired-mode 1))))
-  (general-define-key
-   :keymaps 'dired-mode-map
-   "TAB"       'dired-subtree-toggle
-   "<backtab>" 'dired-subtree-cycle))
+                (nerd-icons-dired-mode 1)))))
+
+(general-define-key
+ :keymaps 'dired-mode-map
+ "TAB"       'dired-subtree-toggle
+ "<backtab>" 'dired-subtree-cycle)
 
 (use-package dired-collapse
   :after dired-hacks-utils
-  :ensure t
   :defer t
+  :ensure t
   :hook (dired-mode . dired-collapse-mode))
 
 (use-package expand-region
@@ -97,14 +96,14 @@
                  (reusable-frames . visible)
                  (window-parameters . ((select . t)))))
   :general
-  ("C-t" 'vterm-toggle)
   (:keymaps 'vterm-mode-map
+            ;; "C-t" 'vterm-toggle
             "C-<return>" 'vterm-toggle-insert-cd
             "C-y" 'vterm-yank))
 
-;; (general-define-key
-;;  :keymaps 'override
-;;  "C-t" 'vterm-toggle)
+(general-define-key
+ :keymaps 'override
+ "C-t" 'vterm-toggle)
 
 (provide 'mod-tools)
 ;;; mod-tools.el ends here
