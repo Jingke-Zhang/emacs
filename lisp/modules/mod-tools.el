@@ -5,16 +5,17 @@
 (use-package dash)
 
 (use-package dired-hacks-utils
-  :ensure (:host github
-           :repo "Fuco1/dired-hacks"
-           :files ("*.el")
-           :build (:not byte-compile)) 
-  :after dired)
+  :ensure t
+  :after dired
+  :defer t)
+
 (use-package dired-subtree
   :after dired-hacks-utils
+  :ensure t
+  :defer t
   :config
   (setq dired-subtree-line-prefix "  │ ")
-  ;; (setq dired-subtree-use-backgrounds nil)
+  (setq dired-subtree-use-backgrounds nil)
   (add-hook 'dired-subtree-after-insert-hook
             (lambda ()
               (when (fboundp 'nerd-icons-dired-mode)
@@ -25,31 +26,10 @@
    "TAB"       'dired-subtree-toggle
    "<backtab>" 'dired-subtree-cycle))
 
-(use-package dired-filter
-  :after dired-hacks-utils
-  :hook (dired-mode . dired-filter-mode)
-  :config
-  (setq dired-filter-group-saved-groups
-        '(("default"
-           ("Code" (extension "cpp" "c" "h" "hpp" "py" "el" "rs" "go"))
-           ("Build" (extension "o" "a" "so" "class")))))
-  (general-define-key
-   :keymaps 'dired-mode-map
-   :prefix "/"
-   "n" 'dired-filter-by-name
-   "e" 'dired-filter-by-extension
-   "g" 'dired-filter-group-mode
-   "/" 'dired-filter-pop-all-persistant))
-
-(use-package dired-narrow
-  :after dired-hacks-utils
-  :config
-  (general-define-key
-   :keymaps 'dired-mode-map
-   "s" 'dired-narrow))
-
 (use-package dired-collapse
   :after dired-hacks-utils
+  :ensure t
+  :defer t
   :hook (dired-mode . dired-collapse-mode))
 
 (use-package expand-region
@@ -58,26 +38,19 @@
   :general
   ("C-=" 'er/expand-region))
 
-(use-package smartparens
-  :ensure t
-  :defer t
-  :hook
-  (prog-mode text-mode markdown-mode)
-  :config
-  (require 'smartparens-config))
-
 (use-package hideshow
+  :hook
+  (prog-mode . hs-minor-mode)
   :general
-  ("C-c f f" 'hs-toggle-hiding
-   "C-c f a" 'hs-hide-all
-   "C-c f s" 'hs-show-all
-   "C-c f l" 'hs-hide-level))
+  ("M-t" 'hs-toggle-hiding
+   "C-M-t" 'hs-hide-all
+   "M-T" 'hs-show-all))
 
 (use-package ace-window
   :ensure t
   :defer t
   :general
-  ("C-x o" 'ace-window))
+  ("M-o" 'ace-window))
 
 (use-package mwim
   :ensure t
@@ -85,13 +58,6 @@
   :general
   ("C-a" 'mwim-beginning-of-code-or-line
    "C-e" 'mwim-end-of-code-or-line))
-
-(use-package undo-tree
-  :ensure t
-  :defer t
-  :init (global-undo-tree-mode)
-  :custom
-  (undo-tree-auto-save-history nil))
 
 (use-package avy
   :ensure t
@@ -102,8 +68,7 @@
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
   :ensure t
-  :init
-  (exec-path-from-shell-initialize))
+  :hook (after-init . exec-path-from-shell-initialize))
 
 (use-package vterm
   :ensure t
@@ -115,8 +80,9 @@
 	vterm-max-scrollback 10000))
     
 (use-package vterm-toggle
-  :ensure (:host github :repo "jixiuf/vterm-toggle")
+  :ensure t
   :after vterm
+  :defer t
   :config
   (setq vterm-toggle-fullscreen-p nil)
 
@@ -131,19 +97,14 @@
                  (reusable-frames . visible)
                  (window-parameters . ((select . t)))))
   :general
+  ("C-t" 'vterm-toggle)
   (:keymaps 'vterm-mode-map
             "C-<return>" 'vterm-toggle-insert-cd
             "C-y" 'vterm-yank))
 
-(general-define-key
- :keymaps 'override
- "C-t" 'vterm-toggle)
-  
-(use-package pdf-tools
-  :ensure t
-  :defer t
-  :defer t)
-
+;; (general-define-key
+;;  :keymaps 'override
+;;  "C-t" 'vterm-toggle)
 
 (provide 'mod-tools)
 ;;; mod-tools.el ends here

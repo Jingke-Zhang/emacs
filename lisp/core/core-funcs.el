@@ -6,7 +6,8 @@
 (defun my/find-emacs-config-file ()
   "Find file in emacs configuration."
   (interactive)
-  (projectile-find-file-in-directory user-emacs-directory))
+  (let ((default-directory user-emacs-directory))
+    (project-find-file)))
 
 (defun my/open-zsh-config ()
   (interactive)
@@ -17,13 +18,13 @@
   (interactive)
   (switch-to-buffer nil))
 
-(my/find-file-def
+(general-define-key
+ :prefix "C-x f"
  "p" 'my/find-emacs-config-file
  "z" 'my/open-zsh-config)
 
 (general-define-key
  "C-`" 'my/switch-to-last-buffer)
-
 
 (provide 'core-funcs)
 ;;; core-funcs.el ends here

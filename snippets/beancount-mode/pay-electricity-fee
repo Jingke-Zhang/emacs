@@ -2,6 +2,6 @@
 # name: Pay Electricity Fee
 # key: elec
 # --
-${1} * "" "Pay ${2} electricity fee"
+${1:`(format-time-string "%Y-%m-%d")`} * "" "Pay ${2} electricity fee"
   Assets:JP:Cash                                         - ${3} JPY
   Liabilities:Payable:Electricity$0

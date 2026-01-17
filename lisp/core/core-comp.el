@@ -179,29 +179,20 @@
   ;; ("M-p" cape-prefix-map)
 )
 
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :demand t
+  :ensure t
+  :config
+  (setq completion-styles '(orderless partial-completion)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
 (use-package nerd-icons-corfu
   :ensure t
   :defer t
   :after corfu
   :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-
-(use-package corfu-candidate-overlay
-  :ensure t
-  :defer t
-  :after corfu
-  :config
-  (corfu-candidate-overlay-mode 1)
-  :bind
-  ("C-<tab>" .'corfu-candidate-overlay-complete-at-point))
-
-;; Use the `orderless' completion style.
-(use-package orderless
-  :ensure t
-  :defer t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia

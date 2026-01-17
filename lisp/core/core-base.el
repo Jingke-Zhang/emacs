@@ -3,17 +3,10 @@
 
 ;;; Code:
 ;; Coding system
-(set-language-environment "utf-8")
-(set-default-coding-systems 'utf-8)
-(set-buffer-file-coding-system 'utf-8-unix)
-(set-clipboard-coding-system 'utf-8-unix)
-(set-file-name-coding-system 'utf-8-unix)
-(set-keyboard-coding-system 'utf-8-unix)
-(set-next-selection-coding-system 'utf-8-unix)
-(set-selection-coding-system 'utf-8-unix)
-(set-terminal-coding-system 'utf-8-unix)
-(setq locale-coding-system 'utf-8)
+(set-language-environment "UTF-8")
 (prefer-coding-system 'utf-8)
+(when (eq system-type 'darwin)
+  (set-clipboard-coding-system 'utf-8))
 
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -28,7 +21,6 @@
       )
 (add-hook 'prog-mode-hook #'electric-pair-mode)
 (add-hook 'prog-mode-hook #'show-paren-mode)
-(add-hook 'prog-mode-hook #'hs-minor-mode)
 (column-number-mode t)
 (global-auto-revert-mode t)
 (delete-selection-mode t)

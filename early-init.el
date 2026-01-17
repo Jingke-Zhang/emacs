@@ -13,9 +13,6 @@
 (add-to-list 'default-frame-alist '(width . 160))
 (add-to-list 'default-frame-alist '(height . 45))
 
-;; So we can detect this having been loaded
-(provide 'early-init)
-
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
@@ -23,4 +20,5 @@
 (when (eq system-type 'darwin)
   (setq frame-resize-pixelwise t))
 
+(provide 'early-init)
 ;;; early-init.el ends here

@@ -11,9 +11,8 @@ DIRS is a list of relative paths from `user-emacs-directory'."
       (when (file-directory-p full-path)
 	(add-to-list 'load-path full-path)))))
 
-(my/add-dirs-to-load-path '("lisp"
-			    "lisp/core"
-			    "lisp/modules"))
+(my/add-dirs-to-load-path '("lisp/core"
+			                "lisp/modules"))
   
 (defconst *spell-check-support-enabled* nil)
 (defconst *is-a-mac* (eq system-type 'darwin))
@@ -29,8 +28,8 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 ;; Load configuration
 (require 'core-elpa)
 (require 'core-base)
-(require 'core-ui)
 (require 'core-edit)
+(require 'core-ui)
 (require 'core-comp)
 (require 'core-funcs)
 

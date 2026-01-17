@@ -2,6 +2,6 @@
 # name: Pay Gas Fee
 # key: gas
 # --
-${1} * "" "Pay ${2} gas fee"
+${1:`(format-time-string "%Y-%m-%d")`} * "" "Pay ${2} gas fee"
   Assets:JP:PayPay                                         - ${3} JPY
   Liabilities:Payable:Gas$0

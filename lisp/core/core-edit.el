@@ -27,20 +27,40 @@
   :ensure (:wait t)
   :demand t
   :config
-  (general-create-definer my/C-x
-    :prefix "C-x")
-  (general-create-definer my/C-c
-    :prefix "C-c")
+  (global-unset-key (kbd "C-z"))
+  (general-create-definer my-leader-def
+    :prefix "C-z")
   (general-unbind
-    "C-x f")
-  (general-create-definer my/find-file-def
-    :prefix "C-x f")
-  (general-create-definer my/toggle-def
-    :prefix "C-x t")
-  (general-create-definer my/persp-def
-    :prefix "C-c p")
-  (general-create-definer my/project-def
-    :prefix "C-x p"))
+    "C-x f"))
+
+;; better undo
+(setq undo-limit 6710886400)
+(setq undo-strong-limit 100663296)
+(setq undo-outer-limit 1006632960)
+
+(use-package vundo
+  :ensure t
+  :defer t
+  :config
+  (setq vundo-glyph-alist vundo-unicode-symbols)
+  (setq vundo-roll-back-on-quit nil)
+
+  :general
+  ("C-x u" 'vundo)
+  
+  (:keymaps 'vundo-mode-map
+   "C-f" 'vundo-forward
+   "C-b" 'vundo-backward
+   "f"   'vundo-forward
+   "b"   'vundo-backward
+
+   "C-n" 'vundo-next
+   "C-p" 'vundo-previous
+   "n"   'vundo-next
+   "p"   'vundo-previous
+
+   "C-g" 'vundo-quit
+   "q"   'vundo-quit))
 
 
 (provide 'core-edit)
