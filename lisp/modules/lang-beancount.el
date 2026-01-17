@@ -37,7 +37,6 @@ Extracts candidates from the official table, sorts them, and uses Vertico."
   :hook
   (beancount-mode . lsp-deferred)
   (beancount-mode . (lambda () (setq-local electric-indent-chars nil)))
-  (beancount-mode . my/beancount-fix-completion)
   :config
   (with-eval-after-load 'lsp-mode
     (setq lsp-beancount-journal-file (concat my/beancount-root "main.beancount"))
