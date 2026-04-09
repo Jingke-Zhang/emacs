@@ -2,6 +2,6 @@
 # name: Accure Gas Bill
 # key: gas
 # --
-${1} * "Tokyo Gas" "Accrue ${2} gas bill"
+${1} * "ENEARC" "Accrue ${2} gas bill"
   Liabilities:Payable:Gas                                  - ${3} JPY
   Expenses:Core:Utilities:Gas$0

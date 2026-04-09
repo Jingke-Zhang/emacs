@@ -3,29 +3,41 @@
 
 ;;; Code:
 (defvar my/beancount-root "~/Documents/02-areas/beancount/")
+(defvar my/beancount-account-file "~/Documents/02-areas/beancount/config/account.beancount")
 
 (defun my/beancount-open-file-this-month ()
   "Search file in beancount folder of this month"
   (interactive)
   (find-file (concat my/beancount-root (format-time-string "%Y/%m.beancount"))))
 
-(defun my/beancount-insert-account ()
-  "Insert account using standard beancount source, BUT SORTED.
-Extracts candidates from the official table, sorts them, and uses Vertico."
-  (interactive)
-  (let* ((word (thing-at-point 'word))
+(defun my/beancount-get-accounts-from-file (file-path)
+  "Extract active accounts from a specific Beancount file."
+  (let ((accounts '())
+        (closed-accounts '()))
+    (when (file-exists-p file-path)
+      (with-temp-buffer
+        (insert-file-contents file-path)
+        (goto-char (point-min))
+        (while (re-search-forward "^\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\)\\s-+\\(open\\|close\\)\\s-+\\([A-Z][a-zA-Z0-9:]+\\)" nil t)
+          (let ((type (match-string 2))
+                (account (match-string 3)))
+            (if (string= type "open")
+                (push account accounts)
+              (push account closed-accounts))))))
+    (setq accounts (cl-remove-if (lambda (acc) (member acc closed-accounts)) accounts))
+    (delete-dups (sort accounts #'string<))))
 
-         (candidates (sort (all-completions "" #'beancount-account-completion-table)
-                           #'string<))
-         (account (completing-read "Account: "
-                                   candidates
-                                   nil t word)))
-    
-    (let ((bounds (bounds-of-thing-at-point 'word)))
-      (when bounds
-        (delete-region (car bounds) (cdr bounds))))
-    
-    (insert account)))
+(defun my/beancount-insert-account ()
+  "Insert account by parsing your master account file."
+  (interactive)
+  (let* ((account-file my/beancount-account-file) 
+         (candidates (my/beancount-get-accounts-from-file account-file))
+         (selected (completing-read "Account (Static): " candidates nil t)))
+    (when selected
+      (let ((bounds (bounds-of-thing-at-point 'word)))
+        (if bounds
+            (replace-region-contents (car bounds) (cdr bounds) (lambda () selected))
+          (insert selected))))))
 
 (general-define-key
   "C-x f b" 'my/beancount-open-file-this-month)

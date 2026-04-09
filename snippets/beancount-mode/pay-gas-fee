@@ -3,5 +3,5 @@
 # key: gas
 # --
 ${1:`(format-time-string "%Y-%m-%d")`} * "" "Pay ${2} gas fee"
-  Assets:JP:PayPay                                         - ${3} JPY
+  Liabilities:JP:PPB:CreditCard:2169 - ${3}JPY
   Liabilities:Payable:Gas$0

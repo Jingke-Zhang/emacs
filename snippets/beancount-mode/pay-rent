@@ -3,5 +3,5 @@
 # key: rent
 # --
 ${1:`(format-time-string "%Y-%m-%d")`} * "" "Pay house rent for ${2}"
-  Assets:JP:JPB:CashCard:7721                             - 69330 JPY
+  Assets:JP:SMBC:Checking:3721 - 80330 JPY
   Assets:Prepaid:Rent$0

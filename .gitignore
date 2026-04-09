@@ -15,3 +15,5 @@ recentf
 /projectile-bookmarks.eld
 custom.el
 /tree-sitter/
+/eln-cache/
+/tramp

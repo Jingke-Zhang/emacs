@@ -1,0 +1,41 @@
+#+TITLE: README
+#+AUTHOR: Jingke Zhang
+#+DATE: [2026-04-09 Thu]
+
+* Install Emacs on MacOS
+I am using *emacs-plus@31* On my MacBook.
+Here is the website of emacs-plus: [[https://github.com/d12frosted/homebrew-emacs-plus][Click Here]].
+
+To install it, we have to do 3 things.
+** Create a build configuration
+First, touch a new file named ~~/.config/emacs-plus/build.yml~.
+#+begin_src shell
+  vim ~/.config/emacs-plus/build.yml
+#+end_src
+
+then paste the following into it:
+#+begin_src
+icon: liquid-glass
+patches:
+  - mac-font-use-typo-metrics
+  - aggressive-read-buffering
+inject_path: true
+#+end_src
+
+** Install ~emacs-plus~
+#+begin_src shell
+  $ brew install emacs-plus@31 \
+    --with-debug \
+    --with-xwidgets
+#+end_src
+
+We want to use emacs as a application, which can be found by Spotlight or
+Alfred, so we copy it into the application folder.
+#+begin_src shell
+  $ cp -r /opt/homebrew/opt/emacs-plus@31/Emacs.app /Applications/
+  $ cp -r "/opt/homebrew/opt/emacs-plus@31/Emacs Client.app" /Applications/
+#+end_src
+
+* Install Some Useful Tools
+We use ~fd~, ~ripgrep~, ~libtool-bin~ and ~libvterm~. Install them by your package
+manager on your computer.

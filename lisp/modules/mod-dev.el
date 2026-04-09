@@ -12,6 +12,17 @@
   :general
   ("C-x C-b" 'ibuffer))
 
+(defun my/project-try-local (dir)
+  "Determine if DIR is a non-git project."
+  (let ((root (locate-dominating-file dir ".project")))
+    (and root (cons 'transient root))))
+
+(use-package project
+  :defer t
+  :ensure nil
+  :config
+  (add-to-list 'project-find-functions 'my/project-try-local))
+
 (use-package transient
   :defer t
   :ensure t)
@@ -93,6 +104,11 @@
             [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
             [remap xref-find-references]  #'lsp-ui-peek-find-references))
 
+(use-package docker
+  :ensure t
+  :defer t
+  :general
+  ("C-c d" 'docker))
 
 (provide 'mod-dev)
 ;;; mod-dev.el ends here

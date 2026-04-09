@@ -3,5 +3,5 @@
 # key: rent
 # --
 ${1} * "" "Recognize ${2} rent expense"
-  Assets:Prepaid:Rent                                     - 69330 JPY
+  Assets:Prepaid:Rent                                     - 80330 JPY
   Expenses:Core:Housing:Rent$0

@@ -4,4 +4,4 @@
 # --
 ${`(format-time-string "%Y-%m-%d")`} * "National Health Insurance for ${2}" ""
   Expenses:Core:SocialInsurance:Health                     + ${3:1860} JPY
-  Liabilities:JP:PPB:CreditCard:2169$0
+  Assets:JP:SMBC:Checking:3721$0

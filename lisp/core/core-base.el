@@ -11,7 +11,12 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
+(when (and (eq system-type 'darwin) (display-graphic-p))
+  (setq mac-option-modifier 'hyper
+        mac-command-modifier 'meta))
+
 ;; Others
+(setq use-short-answers t)
 (setq confirm-kill-emacs #'yes-or-no-p
       inhibit-startup-message t
       make-backup-files nil

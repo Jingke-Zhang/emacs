@@ -1,5 +1,4 @@
-;;; early-init.el --- Emacs 27+ pre-initialisation config
-
+;;; early-init.el --- Emacs 27+ pre-initialisation config -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;; Emacs 27+ loads this file before (normally) calling
@@ -10,15 +9,15 @@
 
 (setq package-enable-at-startup nil)
 
-(add-to-list 'default-frame-alist '(width . 160))
-(add-to-list 'default-frame-alist '(height . 45))
-
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
+(add-to-list 'default-frame-alist '(undecorated-round . t))
+(add-to-list 'default-frame-alist '(width . 120))
+(add-to-list 'default-frame-alist '(height . 50))
 
 (when (eq system-type 'darwin)
   (setq frame-resize-pixelwise t))
+
+(setq face-font-rescale-alist '(("PingFang SC" . 1.2) ("Optima" . 1.2)))
+
 
 (provide 'early-init)
 ;;; early-init.el ends here

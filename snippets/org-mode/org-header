@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: org header
+# key: hh
+# --
+#+TITLE: ${1:`(file-name-nondirectory (file-name-sans-extension (or (buffer-file-name) "")))`}
+#+AUTHOR: `user-full-name`
+#+DATE: `(format-time-string "[%Y-%m-%d %a]")`
+#+FILETAGS: :${2:Research}:
+$0

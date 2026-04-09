@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: iCloud+
+# key: icloud
+# --
+${1:`(format-time-string "%Y-%m-%d")`} * "Apple" "iCloud+"
+  Liabilities:JP:PPB:CreditCard:2169    - 150 JPY
+  Expenses:Discretionary:Technology:Subscription

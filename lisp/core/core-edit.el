@@ -2,6 +2,12 @@
 ;;; Commentary:
 
 ;;; Code:
+(setq-default fill-column 80)
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+
+(add-hook 'text-mode-hook #'auto-fill-mode)
+(add-hook 'prog-mode-hook #'auto-fill-mode)
+
 (use-package hydra
   :ensure (:wait t))
 
@@ -27,11 +33,23 @@
   :ensure (:wait t)
   :demand t
   :config
-  (global-unset-key (kbd "C-z"))
-  (general-create-definer my-leader-def
-    :prefix "C-z")
+  (global-unset-key (kbd "M-z"))
+  (general-create-definer my/leader-def
+    :prefix "M-z")
   (general-unbind
     "C-x f"))
+
+(my/leader-def
+  "s" 'scratch-buffer
+  "z" 'zap-to-char
+  "M-z" 'zap-up-to-char
+  ;; eval
+  "e" '(:ignore t :which-key "eval")
+  "eb" 'eval-buffer
+  "er" 'eval-region
+  "ee" 'eval-last-sexp
+  "ef" 'eval-defun)
+
 
 ;; better undo
 (setq undo-limit 6710886400)

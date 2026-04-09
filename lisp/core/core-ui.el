@@ -4,18 +4,21 @@
 ;;; Code:
 ;; Font
 (set-face-attribute 'default nil
-                    :font "CodeNewRoman Nerd Font Mono"
-                    :height 150)
+                    :family "SF Mono"
+                    :height 150
+                    :weight 'regular)
+
+(set-face-attribute 'variable-pitch nil
+                    :family "Optima"
+                    :height 1.1)
+
+(set-face-attribute 'fixed-pitch nil
+                    :family "SF Mono"
+                    :height 1.0)
 
 ;; Provide icons
 (use-package nerd-icons
   :ensure t)
-
-;; Use nerd-icons for dired
-(use-package nerd-icons-dired
-  :ensure t
-  :hook
-  (dired-mode . nerd-icons-dired-mode))
 
 ;; Some display settings
 (unless (equal "Battery status not available"
@@ -30,7 +33,7 @@
 (use-package catppuccin-theme
   :ensure t
   :config
-  (setq catppuccin-flavor 'frappe)
+  (setq catppuccin-flavor 'latte)
   (load-theme 'catppuccin t)
 
   (defun my/transparent-emacs ()
@@ -45,7 +48,6 @@
               (with-selected-frame frame
                 (my/transparent-emacs)))))
 
-
 ;; Modeline
 (use-package doom-modeline
   :ensure t
@@ -54,6 +56,7 @@
 	    doom-modeline-height 25
 	    doom-modeline-hud nil
         doom-modeline-project-detection 'project
+        doom-modeline-indent-info t
 	    doom-modeline-total-line-number t)
   (doom-modeline-mode 1))
 
@@ -111,6 +114,27 @@
   (set-face-attribute 'tab-bar-tab nil :background (face-foreground 'font-lock-function-name-face) :foreground (face-background 'default) :box nil)
   (set-face-attribute 'tab-bar-tab-inactive nil :background (face-background 'mode-line-inactive) :foreground (face-foreground 'default) :box nil)
   (tab-bar-mode 1))
+
+(use-package nyan-mode
+  :ensure t
+  :init
+  (nyan-mode 1)
+  :config
+  (setq nyan-wavy-trail t)
+  (setq nyan-bar-length 16))
+
+(use-package fill-column-indicator
+  :ensure t
+  :hook (prog-mode . fci-mode)
+  :config
+  (setq fci-rule-column 80)
+  (setq fci-rule-width 1)
+  (setq fci-rule-color "#3e4451"))
+
+(use-package mixed-pitch
+  :ensure t
+  :hook
+  (text-mode . mixed-pitch-mode))
 
 
 (provide 'core-ui)

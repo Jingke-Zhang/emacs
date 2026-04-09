@@ -2,6 +2,6 @@
 # name: Accrue Electricity Bill
 # key: elec
 # --
-${1} * "HTB" "Accrue ${2} electricity bill"
+${1} * "Japanden" "Accrue ${2} electricity bill"
   Liabilities:Payable:Electricity                           - ${3} JPY
   Expenses:Core:Utilities:Electricity$0
