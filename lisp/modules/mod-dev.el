@@ -63,40 +63,39 @@
 (use-package flycheck
   :ensure t
   :defer t
-  :config
-  (setq truncate-lines nil
-        flycheck-indication-mode 'right-fringe)
+  :custom
+  (flycheck-indication-mode 'right-fringe)
+  (truncate-lines nil)
   :hook
   (prog-mode . flycheck-mode))
-
-(setq lsp-ts-query-parser-install-directories
-      (vector (expand-file-name "tree-sitter" user-emacs-directory)))
 
 (use-package lsp-mode
   :ensure t
   :defer t
   :init
   (setq lsp-keymap-prefix "C-c l"
-	lsp-format-buffer-on-save nil
-	lsp-file-watch-threshold 500)
+        lsp-ts-query-parser-install-directories
+        (vector (expand-file-name "tree-sitter" user-emacs-directory)))
+  :custom
+  (lsp-completion-provider :none)
+  (lsp-enable-on-type-formatting nil)
+  (lsp-file-watch-threshold 500)
+  (lsp-format-buffer-on-save nil)
+  (lsp-headerline-breadcrumb-enable t)
+  (lsp-headerline-breadcrumb-icons-enable t)
+  (lsp-idle-delay 0.50)
   :hook  (lsp-mode . lsp-enable-which-key-integration) ; which-key integration
-  :commands (lsp lsp-deferred)
-  :config
-  (setq lsp-completion-provider :none
-	lsp-headerline-breadcrumb-enable t
-	lsp-enable-on-type-formatting nil
-	lsp-headerline-breadcrumb-icons-enable t
-    lsp-idle-delay 0.50))
+  :commands (lsp lsp-deferred))
 	
 (use-package lsp-ui
   :ensure t
   :after lsp-mode
   :defer t
-  :config
-  (setq lsp-ui-doc-position 'top
-        lsp-ui-doc-enable nil
-        lsp-ui-sideline-enable nil
-        lsp-ui-sideline-show-code-actions t)
+  :custom
+  (lsp-ui-doc-enable nil)
+  (lsp-ui-doc-position 'top)
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-show-code-actions t)
   :general
   (:keymaps 'lsp-ui-mode-map
             [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
