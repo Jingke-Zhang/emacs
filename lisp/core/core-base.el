@@ -21,7 +21,6 @@
       inhibit-startup-message t
       make-backup-files nil
       display-line-numbers-type t
-      find-file-visit-truename t
       display-line-numbers-width 4
       )
 (add-hook 'prog-mode-hook #'electric-pair-mode)
@@ -30,8 +29,6 @@
 (global-auto-revert-mode t)
 (delete-selection-mode t)
 (global-display-line-numbers-mode 1)
-
-(savehist-mode 1)
 
 (setq initial-scratch-message nil)
 (add-hook 'emacs-startup-hook
@@ -46,7 +43,7 @@
 (when (and (eq system-type 'darwin) (not (display-graphic-p)))
   (defun copy-from-osx ()
     (shell-command-to-string "pbpaste"))
-  (defun paste-to-osx (text &optional push)
+  (defun paste-to-osx (text &optional _push)
     (let ((process-connection-type nil))
       (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
         (process-send-string proc text)

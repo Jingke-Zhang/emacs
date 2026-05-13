@@ -6,12 +6,11 @@
   :ensure t
   :mode
   ("\\.pdf\\'" . pdf-view-mode)
+  :magic ("%PDF" . pdf-view-mode)
+  :hook (pdf-view-mode . (lambda () (display-line-numbers-mode -1)))
   :config
-  (pdf-tools-install)
-  (add-hook 'pdf-view-mode-hook (lambda () (display-line-numbers-mode -1)))
-  ;; :hook
-  ;; (pdf-view-mode . pdf-view-roll-minor-mode)
-  )
+  ;; Install the server on demand instead of rebuilding it during startup.
+  (pdf-tools-install :no-query))
 
 
 (provide 'mod-pdf)

@@ -79,4 +79,4 @@
 
 
 (provide 'mod-org)
-;;; mod-doc.el ends here
+;;; mod-org.el ends here

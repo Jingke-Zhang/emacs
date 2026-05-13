@@ -12,13 +12,16 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 	(add-to-list 'load-path full-path)))))
 
 (my/add-dirs-to-load-path '("lisp/core"
-			                "lisp/modules"))
+                            "lisp/modules"))
   
 (defconst *spell-check-support-enabled* nil)
 (defconst *is-a-mac* (eq system-type 'darwin))
 
-;; Adjust garbage collection thresholds during startup, and thereafter
+;; Raise GC during startup, then restore it so interactive editing stays smooth.
 (setq gc-cons-threshold (* 128 1024 1024))
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 32 1024 1024))))
 (setq read-process-output-max (* 4 1024 1024))
 (setq process-adaptive-read-buffering nil)
 

@@ -107,7 +107,9 @@
   (setq tab-bar-show 1)
   :config
   (setq tab-bar-close-button-show nil
-        tab-bar-new-button-show nil
+        tab-bar-format '(tab-bar-format-history
+                         tab-bar-format-tabs
+                         tab-bar-separator)
         tab-bar-separator "  ")
   
   (set-face-attribute 'tab-bar nil :background (face-background 'default) :box nil)
@@ -122,14 +124,6 @@
   :config
   (setq nyan-wavy-trail t)
   (setq nyan-bar-length 16))
-
-(use-package fill-column-indicator
-  :ensure t
-  :hook (prog-mode . fci-mode)
-  :config
-  (setq fci-rule-column 80)
-  (setq fci-rule-width 1)
-  (setq fci-rule-color "#3e4451"))
 
 (use-package mixed-pitch
   :ensure t

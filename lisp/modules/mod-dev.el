@@ -37,7 +37,7 @@
   :defer t
   :hook
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
-  (magit-pre-refresh . diff-hl-magit-pre-refresh)
+  (magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
   (prog-mode . diff-hl-mode)
   (dired-mode . diff-hl-dired-mode)
   (text-mode . diff-hl-mode)
@@ -49,8 +49,6 @@
   (prog-mode . yas-minor-mode)
   (text-mode . yas-minor-mode)
   (conf-mode . yas-minor-mode)
-  :config
-  (yas-reload-all)
   :general
   (:keymaps 'yas-minor-mode-map
             "TAB" nil
@@ -71,10 +69,8 @@
   :hook
   (prog-mode . flycheck-mode))
 
-;; LSP
-;; FIXME
 (setq lsp-ts-query-parser-install-directories
-      ["/Users/jingke/.config/emacs/tree-sitter"])
+      (vector (expand-file-name "tree-sitter" user-emacs-directory)))
 
 (use-package lsp-mode
   :ensure t
@@ -82,8 +78,7 @@
   :init
   (setq lsp-keymap-prefix "C-c l"
 	lsp-format-buffer-on-save nil
-	lsp-file-watch-threshold 500
-    read-process-output-max (* 1024 1024))
+	lsp-file-watch-threshold 500)
   :hook  (lsp-mode . lsp-enable-which-key-integration) ; which-key integration
   :commands (lsp lsp-deferred)
   :config
@@ -91,8 +86,7 @@
 	lsp-headerline-breadcrumb-enable t
 	lsp-enable-on-type-formatting nil
 	lsp-headerline-breadcrumb-icons-enable t
-    lsp-idle-delay 0.50
-    gc-cons-threshold 100000000))
+    lsp-idle-delay 0.50))
 	
 (use-package lsp-ui
   :ensure t
