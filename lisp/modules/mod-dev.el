@@ -72,6 +72,10 @@
   (prog-mode . flycheck-mode))
 
 ;; LSP
+;; FIXME
+(setq lsp-ts-query-parser-install-directories
+      ["/Users/jingke/.config/emacs/tree-sitter"])
+
 (use-package lsp-mode
   :ensure t
   :defer t

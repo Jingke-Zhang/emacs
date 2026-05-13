@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: doxygen function comment
+# key: docf
+# --
+/**
+ * @brief ${1:description}
+ *
+ * @param ${2:param} ${3:description}
+ * @return ${4:description}
+ */
+$0

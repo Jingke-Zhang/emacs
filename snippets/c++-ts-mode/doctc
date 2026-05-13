@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: doxygen template class comment
+# key: doctc
+# --
+/**
+ * @brief ${1:class description}
+ *
+ * @tparam ${2:T} ${3:template parameter description}
+ *
+ * ${0}
+ */

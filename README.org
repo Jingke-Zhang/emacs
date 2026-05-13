@@ -28,7 +28,6 @@ inject_path: true
     --with-debug \
     --with-xwidgets
 #+end_src
-
 We want to use emacs as a application, which can be found by Spotlight or
 Alfred, so we copy it into the application folder.
 #+begin_src shell

@@ -18,6 +18,5 @@
 
 (setq face-font-rescale-alist '(("PingFang SC" . 1.2) ("Optima" . 1.2)))
 
-
 (provide 'early-init)
 ;;; early-init.el ends here

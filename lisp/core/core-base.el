@@ -33,6 +33,10 @@
 
 (savehist-mode 1)
 
+(setq initial-scratch-message nil)
+(add-hook 'emacs-startup-hook
+          (lambda () (message "")))
+
 (setq scroll-margin 4
       scroll-step 1
       scroll-conservatively 10000

@@ -36,6 +36,8 @@ DIRS is a list of relative paths from `user-emacs-directory'."
 (require 'mod-dev)
 (require 'mod-tools)
 (require 'mod-org)
+(require 'mod-tex)
+(require 'mod-pdf)
 
 (require 'lang-cc)
 (require 'lang-py)

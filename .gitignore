@@ -17,3 +17,7 @@ custom.el
 /tree-sitter/
 /eln-cache/
 /tramp
+/.org-id-locations
+/bookmarks.eld
+/org-roam.db
+/straight/

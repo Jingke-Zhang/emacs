@@ -4,7 +4,7 @@
 ;;; Code:
 ;; Font
 (set-face-attribute 'default nil
-                    :family "SF Mono"
+                    :family "CodeNewRoman Nerd Font Mono"
                     :height 150
                     :weight 'regular)
 
@@ -13,7 +13,7 @@
                     :height 1.1)
 
 (set-face-attribute 'fixed-pitch nil
-                    :family "SF Mono"
+                    :family "CodeNewRoman Nerd Font Mono"
                     :height 1.0)
 
 ;; Provide icons

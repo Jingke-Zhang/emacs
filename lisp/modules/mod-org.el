@@ -19,7 +19,9 @@
         org-src-tab-acts-natively t
         org-src-fontify-natively t)
   (setq org-format-latex-options 
-        (plist-put org-format-latex-options :scale 1.5))
+        (plist-put org-format-latex-options :scale 1.5)
+        org-preview-latex-default-process 'dvisvgm)
+  
   (custom-set-faces
    '(org-level-1 ((t (:inherit outline-1 :height 1.4 :weight bold))))
    '(org-level-2 ((t (:inherit outline-2 :height 1.2 :weight bold))))
@@ -63,12 +65,18 @@
 (use-package org-journal
   :ensure t
   :defer t
-  :init
-  ;; Change default prefix key; needs to be set before loading org-journal
-  (setq org-journal-prefix-key "C-c j")
   :config
   (setq org-journal-dir (expand-file-name "journal" my/org-path)
-        org-journal-date-format "%Y-%m-%d, %A"))
+        org-journal-date-format "%Y-%m-%d, %A")
+  :general
+  ("C-c j j" 'org-journal-new-entry
+   "C-c j s" 'org-journal-search))
+
+(use-package org-fragtog
+  :ensure t
+  :hook
+  (org-mode . org-fragtog-mode))
+
 
 (provide 'mod-org)
 ;;; mod-doc.el ends here

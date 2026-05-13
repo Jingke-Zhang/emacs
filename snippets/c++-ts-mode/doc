@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: doxygen comment
+# key: doc
+# --
+/**
+ * @brief ${1:description}
+ *
+ * $0
+ */
