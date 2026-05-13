@@ -9,14 +9,17 @@
 (add-hook 'prog-mode-hook #'auto-fill-mode)
 
 (use-package hydra
-  :ensure (:wait t))
+  :ensure t
+  :defer t)
 
 (use-package use-package-hydra
-  :ensure (:wait t)
+  :ensure t
+  :defer t
   :after hydra)
 
 (use-package pretty-hydra
   :ensure t
+  :defer t
   :after hydra)
 
 (use-package which-key
