@@ -21,8 +21,8 @@
   :ensure t)
 
 ;; Some display settings
-(unless (equal "Battery status not available"
-               (battery))
+(when (and (boundp 'battery-status-function)
+           battery-status-function)
   (display-battery-mode 1))
 (tool-bar-mode -1)
 (when (display-graphic-p) (toggle-scroll-bar -1))
@@ -58,7 +58,7 @@
         doom-modeline-project-detection 'project
         doom-modeline-indent-info t
 	    doom-modeline-total-line-number t)
-  (doom-modeline-mode 1))
+  :hook (after-init . doom-modeline-mode))
 
 ;; Rainbow delimiters
 (use-package rainbow-delimiters
@@ -119,8 +119,7 @@
 
 (use-package nyan-mode
   :ensure t
-  :init
-  (nyan-mode 1)
+  :hook (after-init . nyan-mode)
   :config
   (setq nyan-wavy-trail t)
   (setq nyan-bar-length 16))
