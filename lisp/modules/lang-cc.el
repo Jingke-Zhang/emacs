@@ -18,12 +18,11 @@
   (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
   (add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
   (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . c-or-c++-ts-mode))
-
-  :config
-  (dolist (lang-src '((c "https://github.com/tree-sitter/tree-sitter-c")
-                      (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-                      (cmake "https://github.com/uyha/tree-sitter-cmake")))
-    (add-to-list 'treesit-language-source-alist lang-src))
+  (with-eval-after-load 'treesit
+    (dolist (lang-src '((c "https://github.com/tree-sitter/tree-sitter-c")
+                        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+                        (cmake "https://github.com/uyha/tree-sitter-cmake")))
+      (add-to-list 'treesit-language-source-alist lang-src)))
 
   :hook
   ((c-ts-mode c++-ts-mode) . my/google-c-ts-style)
