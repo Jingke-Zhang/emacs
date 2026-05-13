@@ -2,30 +2,49 @@
 ;;; Commentary:
 
 ;;; Code:
+(require 'cl-lib)
+
 (defvar my/beancount-root "~/Documents/02-areas/beancount/")
 (defvar my/beancount-account-file "~/Documents/02-areas/beancount/config/account.beancount")
+(defvar my/beancount-account-cache nil)
+(defvar my/beancount-account-cache-file nil)
+(defvar my/beancount-account-cache-mtime nil)
 
 (defun my/beancount-open-file-this-month ()
-  "Search file in beancount folder of this month"
+  "Open the Beancount journal file for the current month."
   (interactive)
   (find-file (concat my/beancount-root (format-time-string "%Y/%m.beancount"))))
 
+(defun my/beancount-disable-electric-indent ()
+  "Disable electric indentation in Beancount buffers."
+  (setq-local electric-indent-chars nil))
+
 (defun my/beancount-get-accounts-from-file (file-path)
   "Extract active accounts from a specific Beancount file."
-  (let ((accounts '())
-        (closed-accounts '()))
-    (when (file-exists-p file-path)
-      (with-temp-buffer
-        (insert-file-contents file-path)
-        (goto-char (point-min))
-        (while (re-search-forward "^\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\)\\s-+\\(open\\|close\\)\\s-+\\([A-Z][a-zA-Z0-9:]+\\)" nil t)
-          (let ((type (match-string 2))
-                (account (match-string 3)))
-            (if (string= type "open")
-                (push account accounts)
-              (push account closed-accounts))))))
-    (setq accounts (cl-remove-if (lambda (acc) (member acc closed-accounts)) accounts))
-    (delete-dups (sort accounts #'string<))))
+  (let* ((file-path (expand-file-name file-path))
+         (attrs (file-attributes file-path))
+         (mtime (and attrs (file-attribute-modification-time attrs))))
+    (if (and my/beancount-account-cache
+             (equal file-path my/beancount-account-cache-file)
+             (equal mtime my/beancount-account-cache-mtime))
+        my/beancount-account-cache
+      (let ((accounts '())
+            (closed-accounts '()))
+        (when (file-exists-p file-path)
+          (with-temp-buffer
+            (insert-file-contents file-path)
+            (goto-char (point-min))
+            (while (re-search-forward "^\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\)\\s-+\\(open\\|close\\)\\s-+\\([A-Z][a-zA-Z0-9:]+\\)" nil t)
+              (let ((type (match-string 2))
+                    (account (match-string 3)))
+                (if (string= type "open")
+                    (push account accounts)
+                  (push account closed-accounts))))))
+        (setq accounts (cl-remove-if (lambda (acc) (member acc closed-accounts)) accounts))
+        (setq my/beancount-account-cache (delete-dups (sort accounts #'string<))
+              my/beancount-account-cache-file file-path
+              my/beancount-account-cache-mtime mtime)
+        my/beancount-account-cache))))
 
 (defun my/beancount-insert-account ()
   "Insert account by parsing your master account file."
@@ -48,7 +67,7 @@
   :mode ("\\.beancount\\'" . beancount-mode)
   :hook
   (beancount-mode . lsp-deferred)
-  (beancount-mode . (lambda () (setq-local electric-indent-chars nil)))
+  (beancount-mode . my/beancount-disable-electric-indent)
   :config
   (with-eval-after-load 'lsp-mode
     (setq lsp-beancount-journal-file (concat my/beancount-root "main.beancount"))
