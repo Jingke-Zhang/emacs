@@ -42,6 +42,10 @@
   (global-diff-hl-mode 1)
   (diff-hl-flydiff-mode 1))
 
+(with-eval-after-load 'diff-hl-show-hunk-inline
+  (setq diff-hl-show-hunk-inline-smart-lines nil
+        diff-hl-show-hunk-inline-hide-hunk t))
+
 (use-package yasnippet
   :ensure t
   :hook
