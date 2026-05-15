@@ -49,6 +49,13 @@
   ;; automatically when opening a file
   (put 'dired-find-alternate-file 'disabled nil))
 
+(defun my/dirvish-subtree-toggle ()
+  "Toggle the subtree at point only when it is a directory."
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (when (file-directory-p file)
+      (dirvish-subtree-toggle))))
+
 (use-package dirvish
   :ensure t
   :init
@@ -60,7 +67,7 @@
      ("m" "/mnt/"                       "Drives")
      ("t" "~/.local/share/Trash/files/" "TrashCan")))
   :config
-  ;; (dirvish-peek-mode)             ; Preview files in minibuffer
+  (dirvish-peek-mode)             ; Preview files in minibuffer
   (dirvish-side-follow-mode)      ; similar to `treemacs-follow-mode'
   (setq dirvish-mode-line-format
         '(:left (sort symlink) :right (omit yank index)))
@@ -70,8 +77,6 @@
         '(vc-state nerd-icons collapse file-size))
   ;; open large directory (over 20000 files) asynchronously with `fd' command
   (setq dirvish-large-directory-threshold 20000)
-  :general
-  ("C-c f" 'dirvish)
   :bind ; Bind `dirvish-fd|dirvish-side|dirvish-dwim' as you see fit
   (:map dirvish-mode-map               ; Dirvish inherits `dired-mode-map'
    (";"   . dired-up-directory)        ; So you can adjust `dired' bindings here
@@ -87,7 +92,7 @@
    ("y"   . dirvish-yank-menu)
    ("N"   . dirvish-narrow)
    ("^"   . dirvish-history-last)
-   ("TAB" . dirvish-subtree-toggle)
+   ("TAB" . my/dirvish-subtree-toggle)
    ("M-f" . dirvish-history-go-forward)
    ("M-b" . dirvish-history-go-backward)
    ("M-e" . dirvish-emerge-menu)))
