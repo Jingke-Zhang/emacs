@@ -33,14 +33,15 @@
   :general ("C-x g"  'magit-status))
 
 (use-package diff-hl
-  :ensure (:wait t)
-  :demand t
+  :ensure t
+  :defer t
   :hook
   (magit-post-refresh-hook . diff-hl-magit-post-refresh)
   (magit-pre-refresh-hook . diff-hl-magit-pre-refresh)
-  :config
-  (global-diff-hl-mode 1)
-  (diff-hl-flydiff-mode 1))
+  (prog-mode . diff-hl-mode)
+  (dired-mode . diff-hl-dired-mode)
+  (text-mode . diff-hl-mode)
+  (conf-mode . diff-hl-mode))
 
 (with-eval-after-load 'diff-hl-show-hunk-inline
   (setq diff-hl-show-hunk-inline-smart-lines nil

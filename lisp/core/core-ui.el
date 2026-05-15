@@ -21,9 +21,6 @@
   :ensure t)
 
 ;; Some display settings
-(unless (equal "Battery status not available"
-               (battery))
-  (display-battery-mode 1))
 (tool-bar-mode -1)
 (when (display-graphic-p) (toggle-scroll-bar -1))
 (setq inhibit-startup-screen t)
@@ -59,7 +56,6 @@
       (set-face-background 'line-number "unspecified-bg")
       (set-face-background 'fringe "unspecified-bg")))
 
-  (add-hook 'window-setup-hook #'my/transparent-emacs)
   (add-hook 'after-make-frame-functions
             (lambda (frame)
               (with-selected-frame frame
