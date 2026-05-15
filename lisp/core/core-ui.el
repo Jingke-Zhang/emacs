@@ -29,6 +29,23 @@
 (setq inhibit-startup-screen t)
 (global-hl-line-mode 1)
 
+(defun my/center-frame (&optional frame)
+  "Center FRAME on its current monitor."
+  (interactive)
+  (let ((frame (or frame (selected-frame))))
+    (when (display-graphic-p frame)
+      (let* ((workarea (alist-get 'workarea (frame-monitor-attributes frame)))
+             (left (nth 0 workarea))
+             (top (nth 1 workarea))
+             (width (nth 2 workarea))
+             (height (nth 3 workarea))
+             (frame-width (frame-pixel-width frame))
+             (frame-height (frame-pixel-height frame)))
+      (set-frame-position
+       frame
+       (+ left (max 0 (/ (- width frame-width) 2)))
+       (+ top (max 0 (/ (- height frame-height) 2))))))))
+
 ;; Themes
 (use-package catppuccin-theme
   :ensure t
