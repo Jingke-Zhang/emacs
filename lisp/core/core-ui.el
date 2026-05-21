@@ -85,6 +85,68 @@
   (setq show-paren-delay 0
         show-paren-style 'parenthesis))
 
+(defun my/dashboard-pdf-file-p (file)
+  "Return non-nil when FILE is a PDF."
+  (string-match-p "\\.pdf\\'" file))
+
+(defun my/dashboard-recent-files ()
+  "Return recent files excluding PDFs."
+  (seq-remove #'my/dashboard-pdf-file-p recentf-list))
+
+(defun my/dashboard-recent-pdfs ()
+  "Return recent PDF files."
+  (seq-filter #'my/dashboard-pdf-file-p recentf-list))
+
+(defun my/dashboard-insert-recents (list-size)
+  "Add LIST-SIZE recent files, excluding PDFs."
+  (setq dashboard--recentf-cache-item-format nil)
+  (dashboard-mute-apply
+    (recentf-mode 1)
+    (when dashboard-remove-missing-entry
+      (ignore-errors (recentf-cleanup))))
+  (dashboard-insert-section
+   "Recent Files:"
+   (dashboard-shorten-paths (my/dashboard-recent-files)
+                            'dashboard-recentf-alist 'recents)
+   list-size
+   'recents
+   (dashboard-get-shortcut 'recents)
+   `(lambda (&rest _)
+      (find-file-existing (dashboard-expand-path-alist ,el dashboard-recentf-alist)))
+   (let* ((file (dashboard-expand-path-alist el dashboard-recentf-alist))
+          (filename (dashboard-f-filename file))
+          (path (dashboard-extract-key-path-alist el dashboard-recentf-alist)))
+     (cl-case dashboard-recentf-show-base
+       (`align
+        (unless dashboard--recentf-cache-item-format
+          (let* ((len-align (dashboard--align-length-by-type 'recents))
+                 (new-fmt (dashboard--generate-align-format
+                           dashboard-recentf-item-format len-align)))
+            (setq dashboard--recentf-cache-item-format new-fmt)))
+        (format dashboard--recentf-cache-item-format filename path))
+       (`nil path)
+       (t (format dashboard-recentf-item-format filename path))))))
+
+(defun my/dashboard-insert-pdfs (list-size)
+  "Add LIST-SIZE recent PDF files."
+  (dashboard-mute-apply
+    (recentf-mode 1)
+    (when dashboard-remove-missing-entry
+      (ignore-errors (recentf-cleanup))))
+  (dashboard-insert-section
+   "PDF Files:"
+   (dashboard-shorten-paths (my/dashboard-recent-pdfs)
+                            'dashboard-recentf-alist 'pdfs)
+   list-size
+   'pdfs
+   (dashboard-get-shortcut 'pdfs)
+   `(lambda (&rest _)
+      (find-file-existing (dashboard-expand-path-alist ,el dashboard-recentf-alist)))
+   (let* ((file (dashboard-expand-path-alist el dashboard-recentf-alist))
+          (filename (dashboard-f-filename file))
+          (path (dashboard-extract-key-path-alist el dashboard-recentf-alist)))
+     (format dashboard-recentf-item-format filename path))))
+
 ;; Dashboard 
 (use-package dashboard
   :ensure t
@@ -92,12 +154,15 @@
   :init
   (setq dashboard-startup-banner (expand-file-name "attachment/emacs-e-logo.png" user-emacs-directory)
         dashboard-items '((recents   . 5)
-                          (bookmarks . 5)
+                          (pdfs      . 5)
                           (projects  . 5))
         dashboard-item-shortcuts '((recents   . "r")
-                                   (bookmarks . "m")
-                                   (projects  . "p")))
+                                   (pdfs      . "d")
+                                   (projects  . "P")))
   :config
+  (add-to-list 'dashboard-item-generators '(pdfs . my/dashboard-insert-pdfs))
+  (setf (alist-get 'recents dashboard-item-generators)
+        #'my/dashboard-insert-recents)
   (dashboard-setup-startup-hook)
   (setq dashboard-navigation-cycle t
         dashboard-display-icons-p t
@@ -110,6 +175,7 @@
             "p" 'previous-line
             "f" 'forward-char
             "b" 'backward-char
+            "P" 'dashboard-jump-to-projects
             "<return>" 'dashboard-return
             "g"        'dashboard-refresh-buffer
             "q"        'quit-window))

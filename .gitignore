@@ -19,5 +19,7 @@ custom.el
 /tramp
 /.org-id-locations
 /bookmarks.eld
+/pdf-places.el
+/pdf-bookmarks.el
 /org-roam.db
 /straight/
