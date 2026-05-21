@@ -23,7 +23,7 @@
   "Width of the PDF outline sidebar."
   :type 'integer)
 
-(defcustom my/pdf-continuous-scroll t
+(defcustom my/pdf-continuous-scroll nil
   "Whether PDFs should open in continuous scroll mode."
   :type 'boolean)
 
@@ -277,7 +277,8 @@
   (when my/pdf-continuous-scroll
     (pdf-view-roll-minor-mode 1))
   (my/pdf-fit-width)
-  (my/pdf-restore-place))
+  (my/pdf-restore-place)
+  (add-hook 'pdf-view-after-change-page-hook #'my/pdf-save-place nil t))
 
 (defun my/pdf-immersive-quit ()
   "Quit a PDF buffer and restore the previous window configuration."
