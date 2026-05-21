@@ -43,6 +43,64 @@
        (+ left (max 0 (/ (- width frame-width) 2)))
        (+ top (max 0 (/ (- height frame-height) 2))))))))
 
+(defcustom my/default-font-height 150
+  "Default font height used by display controls."
+  :type 'integer)
+
+(defun my/adjust-default-font-height (delta)
+  "Adjust the default font height by DELTA."
+  (let ((height (+ (face-attribute 'default :height nil) delta)))
+    (set-face-attribute 'default nil :height (max 80 height))))
+
+(defun my/increase-default-font-height ()
+  "Increase the default font height."
+  (interactive)
+  (my/adjust-default-font-height 10))
+
+(defun my/decrease-default-font-height ()
+  "Decrease the default font height."
+  (interactive)
+  (my/adjust-default-font-height -10))
+
+(defun my/reset-default-font-height ()
+  "Reset the default font height."
+  (interactive)
+  (set-face-attribute 'default nil :height my/default-font-height))
+
+(defun my/toggle-frame-fullscreen ()
+  "Toggle fullscreen for the selected frame."
+  (interactive)
+  (set-frame-parameter
+   nil 'fullscreen
+   (unless (frame-parameter nil 'fullscreen)
+     'fullboth)))
+
+(require 'hydra)
+
+(defhydra my/hydra-display-control (:hint nil)
+  "
+Font: _+_ bigger  _-_ smaller  _0_ reset
+Frame: _f_ fullscreen
+Window: _h_ narrower  _l_ wider  _j_ taller  _k_ shorter
+"
+  ("+" my/increase-default-font-height)
+  ("=" my/increase-default-font-height)
+  ("-" my/decrease-default-font-height)
+  ("0" my/reset-default-font-height)
+  ("f" my/toggle-frame-fullscreen)
+  ("h" shrink-window-horizontally)
+  ("l" enlarge-window-horizontally)
+  ("j" enlarge-window)
+  ("k" shrink-window)
+  ("<left>" shrink-window-horizontally)
+  ("<right>" enlarge-window-horizontally)
+  ("<down>" enlarge-window)
+  ("<up>" shrink-window)
+  ("q" nil "quit" :color blue))
+
+(my/leader-def
+  "v" 'my/hydra-display-control/body)
+
 ;; Themes
 (use-package catppuccin-theme
   :ensure t
