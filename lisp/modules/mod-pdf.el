@@ -30,6 +30,73 @@
 (defvar-local my/pdf--window-configuration nil)
 (defvar-local my/pdf--saved-mode-line-format nil)
 (defvar-local my/pdf--saved-cursor-type nil)
+(defvar-local my/pdf--current-annotation nil)
+
+(defun my/pdf--annotation-sort-key (annotation)
+  "Return a sort key for ANNOTATION."
+  (let* ((page (pdf-annot-get annotation 'page 0))
+         (edges (car-safe (pdf-annot-get-display-edges annotation)))
+         (top (or (cadr edges) 0)))
+    (cons page top)))
+
+(defun my/pdf--annotation-key< (left right)
+  "Return non-nil when annotation key LEFT is before RIGHT."
+  (or (< (car left) (car right))
+      (and (= (car left) (car right))
+           (< (cdr left) (cdr right)))))
+
+(defun my/pdf--annotations ()
+  "Return PDF annotations sorted by page and vertical position."
+  (require 'pdf-annot)
+  (sort (pdf-annot-getannots nil pdf-annot-list-listed-types)
+        (lambda (left right)
+          (my/pdf--annotation-key<
+           (my/pdf--annotation-sort-key left)
+           (my/pdf--annotation-sort-key right)))))
+
+(defun my/pdf--active-annotation-key (fallback-top)
+  "Return the active annotation key or current page with FALLBACK-TOP."
+  (if (and my/pdf--current-annotation
+           (= (pdf-annot-get my/pdf--current-annotation 'page 0)
+              (pdf-view-current-page)))
+      (my/pdf--annotation-sort-key my/pdf--current-annotation)
+    (cons (pdf-view-current-page) fallback-top)))
+
+(defun my/pdf-goto-annotation (annotation)
+  "Go to ANNOTATION and highlight it briefly."
+  (setq my/pdf--current-annotation annotation)
+  (pdf-view-goto-page (pdf-annot-get annotation 'page))
+  (pdf-annot-show-annotation annotation t))
+
+(defun my/pdf-next-annotation ()
+  "Go to the next annotation in the current PDF."
+  (interactive)
+  (let* ((key (my/pdf--active-annotation-key -1))
+         (annotations (my/pdf--annotations))
+         (next (cl-find-if
+                 (lambda (annotation)
+                   (my/pdf--annotation-key<
+                    key
+                    (my/pdf--annotation-sort-key annotation)))
+                 annotations)))
+    (if next
+        (my/pdf-goto-annotation next)
+      (message "No later PDF annotation."))))
+
+(defun my/pdf-previous-annotation ()
+  "Go to the previous annotation in the current PDF."
+  (interactive)
+  (let* ((key (my/pdf--active-annotation-key most-positive-fixnum))
+         (annotations (reverse (my/pdf--annotations)))
+         (previous (cl-find-if
+                      (lambda (annotation)
+                        (my/pdf--annotation-key<
+                         (my/pdf--annotation-sort-key annotation)
+                         key))
+                      annotations)))
+    (if previous
+        (my/pdf-goto-annotation previous)
+      (message "No earlier PDF annotation."))))
 
 (defun my/pdf--document-key ()
   "Return a stable key for the current PDF buffer."
@@ -276,12 +343,13 @@
          (kill-buffer . my/pdf-save-place))
   :config
   (setq-default pdf-view-display-size 'fit-width
-                pdf-view-continuous t
+                pdf-view-continuous nil
                 pdf-view-resize-factor 1.15
                 pdf-view-midnight-colors '("#cdd6f4" . "#11111b"))
 
   ;; Install the server on demand instead of rebuilding it during startup.
   (pdf-tools-install :no-query)
+  (require 'pdf-annot)
 
   (define-key pdf-view-mode-map (kbd "q") #'my/pdf-immersive-quit)
   (define-key pdf-view-mode-map (kbd "n") #'pdf-view-next-line-or-next-page)
@@ -304,6 +372,16 @@
   (define-key pdf-view-mode-map (kbd "r") #'pdf-history-forward)
   (define-key pdf-view-mode-map (kbd "i") #'my/pdf-immersive-enter)
   (define-key pdf-view-mode-map (kbd "m") #'my/pdf-toggle-night-mode)
+  (define-key pdf-view-mode-map (kbd "a h") #'pdf-annot-add-highlight-markup-annotation)
+  (define-key pdf-view-mode-map (kbd "a u") #'pdf-annot-add-underline-markup-annotation)
+  (define-key pdf-view-mode-map (kbd "a s") #'pdf-annot-add-squiggly-markup-annotation)
+  (define-key pdf-view-mode-map (kbd "a o") #'pdf-annot-add-strikeout-markup-annotation)
+  (define-key pdf-view-mode-map (kbd "a t") #'pdf-annot-add-text-annotation)
+  (define-key pdf-view-mode-map (kbd "a l") #'pdf-annot-list-annotations)
+  (define-key pdf-view-mode-map (kbd "a d") #'pdf-annot-delete)
+  (define-key pdf-view-mode-map (kbd "a e") #'pdf-annot-edit)
+  (define-key pdf-view-mode-map (kbd "a n") #'my/pdf-next-annotation)
+  (define-key pdf-view-mode-map (kbd "a p") #'my/pdf-previous-annotation)
   (define-key pdf-view-mode-map (kbd "B") #'my/pdf-toggle-bookmark)
   (define-key pdf-view-mode-map (kbd "C-c b m") #'my/pdf-toggle-bookmark)
   (define-key pdf-view-mode-map (kbd "C-c b j") #'my/pdf-jump-to-bookmark)
