@@ -23,10 +23,6 @@
   "Width of the PDF outline sidebar."
   :type 'integer)
 
-(defcustom my/pdf-continuous-scroll nil
-  "Whether PDFs should open in continuous scroll mode."
-  :type 'boolean)
-
 (defvar my/pdf--places (make-hash-table :test #'equal))
 (defvar my/pdf--bookmarks (make-hash-table :test #'equal))
 (defvar my/pdf--places-loaded nil)
@@ -144,31 +140,23 @@
 (defun my/pdf-fit-width ()
   "Fit the current PDF to the current window width."
   (interactive)
-  (pdf-view-fit-width-to-window)
-  (when (bound-and-true-p pdf-view-roll-minor-mode)
-    (pdf-roll-redisplay)))
+  (pdf-view-fit-width-to-window))
 
 (defun my/pdf-fit-height ()
   "Fit the current PDF to the current window height."
   (interactive)
-  (pdf-view-fit-height-to-window)
-  (when (bound-and-true-p pdf-view-roll-minor-mode)
-    (pdf-roll-redisplay)))
+  (pdf-view-fit-height-to-window))
 
 (defun my/pdf-fit-page ()
   "Fit the current PDF page to the window."
   (interactive)
-  (pdf-view-fit-page-to-window)
-  (when (bound-and-true-p pdf-view-roll-minor-mode)
-    (pdf-roll-redisplay)))
+  (pdf-view-fit-page-to-window))
 
 (defun my/pdf-goto-page (page)
   "Go to PAGE in the current PDF."
   (interactive
    (list (read-number "Page: " (pdf-view-current-page))))
-  (if (bound-and-true-p pdf-view-roll-minor-mode)
-      (pdf-roll-goto-page page)
-    (pdf-view-goto-page page)))
+  (pdf-view-goto-page page))
 
 (defun my/pdf--bookmarks-for-current-buffer ()
   "Return the bookmarks for the current PDF buffer."
@@ -247,14 +235,6 @@
         (my/pdf-goto-page previous)
       (message "No earlier PDF bookmark."))))
 
-(defun my/pdf-toggle-continuous-scroll ()
-  "Toggle continuous PDF scrolling."
-  (interactive)
-  (pdf-view-roll-minor-mode 'toggle)
-  (my/pdf-fit-width)
-  (message "Continuous PDF scrolling %s"
-           (if pdf-view-roll-minor-mode "enabled" "disabled")))
-
 (defun my/pdf-toggle-night-mode ()
   "Toggle a dark reading filter for the current PDF."
   (interactive)
@@ -274,8 +254,6 @@
   (when (fboundp 'hl-line-mode)
     (hl-line-mode -1))
   (delete-other-windows)
-  (when my/pdf-continuous-scroll
-    (pdf-view-roll-minor-mode 1))
   (my/pdf-fit-width)
   (my/pdf-restore-place)
   (add-hook 'pdf-view-after-change-page-hook #'my/pdf-save-place nil t))
@@ -300,13 +278,10 @@
   (setq-default pdf-view-display-size 'fit-width
                 pdf-view-continuous t
                 pdf-view-resize-factor 1.15
-                pdf-view-midnight-colors '("#cdd6f4" . "#11111b")
-                pdf-roll-vertical-margin 6
-                pdf-roll-margin-color "#1e1e2e")
+                pdf-view-midnight-colors '("#cdd6f4" . "#11111b"))
 
   ;; Install the server on demand instead of rebuilding it during startup.
   (pdf-tools-install :no-query)
-  (require 'pdf-roll)
 
   (define-key pdf-view-mode-map (kbd "q") #'my/pdf-immersive-quit)
   (define-key pdf-view-mode-map (kbd "n") #'pdf-view-next-line-or-next-page)
@@ -325,7 +300,6 @@
   (define-key pdf-view-mode-map (kbd "g") #'my/pdf-goto-page)
   (define-key pdf-view-mode-map (kbd "s") #'isearch-forward)
   (define-key pdf-view-mode-map (kbd "o") #'my/pdf-toggle-outline-sidebar)
-  (define-key pdf-view-mode-map (kbd "c") #'my/pdf-toggle-continuous-scroll)
   (define-key pdf-view-mode-map (kbd "b") #'pdf-history-backward)
   (define-key pdf-view-mode-map (kbd "r") #'pdf-history-forward)
   (define-key pdf-view-mode-map (kbd "i") #'my/pdf-immersive-enter)
