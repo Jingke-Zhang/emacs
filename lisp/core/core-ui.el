@@ -75,27 +75,71 @@
    (unless (frame-parameter nil 'fullscreen)
      'fullboth)))
 
+(defun my/run-display-control-command (command)
+  "Run COMMAND and keep the display hydra alive on errors."
+  (condition-case err
+      (call-interactively command)
+    (error
+     (message "%s" (error-message-string err)))))
+
+(defun my/resize-selected-frame (width-delta height-delta)
+  "Resize the selected frame by WIDTH-DELTA and HEIGHT-DELTA."
+  (let* ((frame (selected-frame))
+         (width (max 40 (+ (frame-width frame) width-delta)))
+         (height (max 10 (+ (frame-height frame) height-delta))))
+    (set-frame-size frame width height)))
+
+(defun my/narrower-frame ()
+  "Make the selected frame narrower."
+  (interactive)
+  (my/resize-selected-frame -5 0))
+
+(defun my/wider-frame ()
+  "Make the selected frame wider."
+  (interactive)
+  (my/resize-selected-frame 5 0))
+
+(defun my/taller-frame ()
+  "Make the selected frame taller."
+  (interactive)
+  (my/resize-selected-frame 0 2))
+
+(defun my/shorter-frame ()
+  "Make the selected frame shorter."
+  (interactive)
+  (my/resize-selected-frame 0 -2))
+
+(defun my/reset-frame-size ()
+  "Reset the selected frame size and center it."
+  (interactive)
+  (set-frame-size
+   (selected-frame)
+   (or (alist-get 'width default-frame-alist) 120)
+   (or (alist-get 'height default-frame-alist) 50))
+  (my/center-frame))
+
 (require 'hydra)
 
-(defhydra my/hydra-display-control (:hint nil)
+(defhydra my/hydra-display-control (:hint nil :color amaranth)
   "
 Font: _+_ bigger  _-_ smaller  _0_ reset
-Frame: _f_ fullscreen
-Window: _h_ narrower  _l_ wider  _j_ taller  _k_ shorter
+Frame: _f_ fullscreen  _r_ reset  _c_ center  _h_ narrower  _l_ wider  _j_ taller  _k_ shorter
 "
-  ("+" my/increase-default-font-height)
-  ("=" my/increase-default-font-height)
-  ("-" my/decrease-default-font-height)
-  ("0" my/reset-default-font-height)
-  ("f" my/toggle-frame-fullscreen)
-  ("h" shrink-window-horizontally)
-  ("l" enlarge-window-horizontally)
-  ("j" enlarge-window)
-  ("k" shrink-window)
-  ("<left>" shrink-window-horizontally)
-  ("<right>" enlarge-window-horizontally)
-  ("<down>" enlarge-window)
-  ("<up>" shrink-window)
+  ("+" (my/run-display-control-command #'my/increase-default-font-height))
+  ("=" (my/run-display-control-command #'my/increase-default-font-height))
+  ("-" (my/run-display-control-command #'my/decrease-default-font-height))
+  ("0" (my/run-display-control-command #'my/reset-default-font-height))
+  ("f" (my/run-display-control-command #'my/toggle-frame-fullscreen))
+  ("r" (my/run-display-control-command #'my/reset-frame-size))
+  ("c" (my/run-display-control-command #'my/center-frame))
+  ("h" (my/run-display-control-command #'my/narrower-frame))
+  ("l" (my/run-display-control-command #'my/wider-frame))
+  ("j" (my/run-display-control-command #'my/taller-frame))
+  ("k" (my/run-display-control-command #'my/shorter-frame))
+  ("<left>" (my/run-display-control-command #'my/narrower-frame))
+  ("<right>" (my/run-display-control-command #'my/wider-frame))
+  ("<down>" (my/run-display-control-command #'my/taller-frame))
+  ("<up>" (my/run-display-control-command #'my/shorter-frame))
   ("q" nil "quit" :color blue))
 
 (my/leader-def
