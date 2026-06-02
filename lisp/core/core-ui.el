@@ -22,7 +22,8 @@
 
 ;; Some display settings
 (tool-bar-mode -1)
-(when (display-graphic-p) (toggle-scroll-bar -1))
+(when (fboundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
 (setq inhibit-startup-screen t)
 (global-hl-line-mode 1)
 
@@ -199,6 +200,9 @@ Frame: _f_ fullscreen  _r_ reset  _c_ center  _h_ narrower  _l_ wider  _j_ talle
   "Return recent PDF files."
   (seq-filter #'my/dashboard-pdf-file-p recentf-list))
 
+(defvar my/dashboard-pdf-alist nil
+  "Alist records shortened dashboard PDF paths and their full paths.")
+
 (defun my/dashboard-insert-recents (list-size)
   "Add LIST-SIZE recent files, excluding PDFs."
   (setq dashboard--recentf-cache-item-format nil)
@@ -238,15 +242,15 @@ Frame: _f_ fullscreen  _r_ reset  _c_ center  _h_ narrower  _l_ wider  _j_ talle
   (dashboard-insert-section
    "PDF Files:"
    (dashboard-shorten-paths (my/dashboard-recent-pdfs)
-                            'dashboard-recentf-alist 'pdfs)
+                            'my/dashboard-pdf-alist 'pdfs)
    list-size
    'pdfs
    (dashboard-get-shortcut 'pdfs)
    `(lambda (&rest _)
-      (find-file-existing (dashboard-expand-path-alist ,el dashboard-recentf-alist)))
-   (let* ((file (dashboard-expand-path-alist el dashboard-recentf-alist))
+      (find-file-existing (dashboard-expand-path-alist ,el my/dashboard-pdf-alist)))
+   (let* ((file (dashboard-expand-path-alist el my/dashboard-pdf-alist))
           (filename (dashboard-f-filename file))
-          (path (dashboard-extract-key-path-alist el dashboard-recentf-alist)))
+          (path (dashboard-extract-key-path-alist el my/dashboard-pdf-alist)))
      (format dashboard-recentf-item-format filename path))))
 
 ;; Dashboard 

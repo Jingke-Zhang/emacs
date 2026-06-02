@@ -12,6 +12,8 @@
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 (add-to-list 'default-frame-alist '(width . 120))
 (add-to-list 'default-frame-alist '(height . 50))
+(add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
+(add-to-list 'initial-frame-alist '(vertical-scroll-bars . nil))
 
 (when (eq system-type 'darwin)
   (setq frame-resize-pixelwise t))
