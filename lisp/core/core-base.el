@@ -34,6 +34,10 @@
 (add-hook 'emacs-startup-hook
           (lambda () (message "")))
 
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-save/" user-emacs-directory) t)))
+(make-directory (expand-file-name "auto-save/" user-emacs-directory) t)
+
 (setq scroll-margin 4
       scroll-step 1
       scroll-conservatively 10000
