@@ -11,7 +11,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
-(when (and (eq system-type 'darwin) (display-graphic-p))
+(when (eq system-type 'darwin)
   (setq mac-option-modifier 'hyper
         mac-command-modifier 'meta))
 
